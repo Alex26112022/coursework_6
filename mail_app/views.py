@@ -4,3 +4,11 @@ from django.views.generic import ListView
 
 def index(request):
     return render(request, 'mail_app/mail_list.html')
+
+
+def examples(request):
+    return render(request, 'mail_app/examples_list.html')
+
+
+def client(request):
+    return render(request, 'mail_app/clients_list.html')

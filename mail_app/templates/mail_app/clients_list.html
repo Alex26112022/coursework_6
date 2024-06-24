@@ -1,0 +1,36 @@
+{% extends 'mail_app/base.html' %}
+
+{% block content %}
+<div class="table-responsive-xxl">
+  <table class="table table-bordered border-primary border border-4 table-hover">
+    <thead>
+      <tr class="table-info">
+      <th scope="col"></th>
+      <th scope="col">Email</th>
+      <th scope="col">Статус</th>
+      <th scope="col">Дата добавления</th>
+      <th scope="col">Последняя доставка письма</th>
+      <th scope="col">Последнее открытие письма</th>
+      <th scope="col">Последний переход по ссылке</th>
+      <th scope="col">Telegram</th>
+      <th scope="col">Телефон</th>
+      <th scope="col">ФИО</th>
+    </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      <tr>
+        <th scope="row">1</th>
+        <td><a href="#">123456789@mail.ru</a></td>
+        <td>Активен</td>
+        <td>2024-06-24 21:35</td>
+        <td>2024-06-24 21:35</td>
+        <td>2024-06-24 21:35</td>
+        <td>2024-06-24 21:35</td>
+        <td>ivan</td>
+        <td>21234567890</td>
+        <td>Иванов Иван Иванович</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}

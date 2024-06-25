@@ -3,7 +3,7 @@ from django.views.generic import ListView
 
 
 def index(request):
-    return render(request, 'mail_app/mail_list.html')
+    return render(request, 'mail_app/newsletter_list.html')
 
 
 def examples(request):

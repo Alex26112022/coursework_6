@@ -1,14 +1,19 @@
 from django.shortcuts import render
 from django.views.generic import ListView
 
-
-def index(request):
-    return render(request, 'mail_app/newsletter_list.html')
+from mail_app.models import Message, Client, Newsletter
 
 
-def examples(request):
-    return render(request, 'mail_app/examples_list.html')
+class NewsletterListView(ListView):
+    model = Newsletter
+    paginate_by = 20
 
 
-def client(request):
-    return render(request, 'mail_app/clients_list.html')
+class MessageListView(ListView):
+    model = Message
+    paginate_by = 6
+
+
+class ClientListView(ListView):
+    model = Client
+    paginate_by = 20

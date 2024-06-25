@@ -9,28 +9,23 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
-        <a href="{% url 'mail_app:mail_list' %}"
+        <a href="{% url 'mail_app:newsletter_list' %}"
            class="nav-link link-body-emphasis"
            aria-current="page">
           Мои рассылки
         </a>
       </li>
       <li>
-        <a href="{% url 'mail_app:clients' %}"
+        <a href="{% url 'mail_app:clients_list' %}"
            class="nav-link link-body-emphasis"
            aria-current="page">
           Клиенты
         </a>
       </li>
       <li>
-        <a href="{% url 'mail_app:examples' %}"
+        <a href="{% url 'mail_app:messages_list' %}"
            class="nav-link link-body-emphasis" aria-current="page">
-          Шаблоны рассылок
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link link-body-emphasis" aria-current="page">
-          Добавить шаблон
+          Шаблоны сообщений
         </a>
       </li>
       <li>

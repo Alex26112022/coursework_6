@@ -17,16 +17,11 @@
             min-height: 250px;">
             {% endif %}
             <div class="card-body">
-              <p class="card-text">{{ message.theme | truncatechars:20 }}</p>
-              <div class="d-flex justify-content-between align-items-center">
+              <p class="card-text m-4">{{ message.theme | truncatechars:20 }}</p>
+              <div class="d-flex justify-content-between align-items-center row text-center">
                 <div class="btn-group">
-                  <button type="button"
-                          class="btn btn-outline-success">Подробнее</button>
-                  <button type="button"
-                          class="btn btn-outline-warning">Редактировать
-                  </button>
-                  <button type="button"
-                          class="btn btn-outline-danger">Удалить</button>
+                  <a type="button" href="{% url 'mail_app:message_detail' message.pk %}"
+                          class="btn btn-outline-success btn-sm">Подробнее</a>
                 </div>
               </div>
             </div>
@@ -39,8 +34,8 @@
 
   <div class="col-12 h-100 m-3
      d-flex align-items-center justify-content-center">
-    <a href="#"
-       class="btn btn-block btn-outline-success"
+    <a href="{% url 'mail_app:message_add' %}"
+       class="btn btn-block btn-outline-success btn-lg"
        role="button">Добавить
       шаблон
     </a>

@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, \
+    DeleteView
 
 from mail_app.models import Message, Client, Newsletter
 
@@ -12,6 +14,27 @@ class NewsletterListView(ListView):
 class MessageListView(ListView):
     model = Message
     paginate_by = 6
+
+
+class MessageDetailView(DetailView):
+    model = Message
+
+
+class MessageCreateView(CreateView):
+    model = Message
+    fields = '__all__'
+    success_url = reverse_lazy('mail_app:messages_list')
+
+
+class MessageUpdateView(UpdateView):
+    model = Message
+    fields = '__all__'
+    success_url = reverse_lazy('mail_app:messages_list')
+
+
+class ClientDeleteView(DeleteView):
+    model = Message
+    success_url = reverse_lazy('mail_app:messages_list')
 
 
 class ClientListView(ListView):

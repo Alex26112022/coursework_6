@@ -3,12 +3,25 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, \
     DeleteView
 
-from mail_app.models import Message, Client, Newsletter
+from mail_app.models import Message, Client, Newsletter, MailingAttempt
 
 
 class NewsletterListView(ListView):
     model = Newsletter
     paginate_by = 20
+
+
+class NewsletterDetailView(DetailView):
+    model = Newsletter
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            attempt = MailingAttempt.objects.get(pk=self.kwargs['pk'])
+            context['attempt'] = attempt
+        except MailingAttempt.DoesNotExist:
+            context['attempt'] = None
+        return context
 
 
 class MessageListView(ListView):

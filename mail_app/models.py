@@ -6,7 +6,8 @@ optional = {'blank': True, 'null': True}
 class Client(models.Model):
     status_list = [('Активный', 'Активный'), ('Неактивный', 'Неактивный'),
                    ('Новый', 'Новый'), ('Потенциальный', 'Потенциальный'),
-                   ('Заблокированный', 'Заблокированный'), ('Неизвестный', 'Неизвестный')]
+                   ('Заблокированный', 'Заблокированный'),
+                   ('Неизвестный', 'Неизвестный')]
     photo = models.ImageField(upload_to='mail_app/clients/',
                               verbose_name='Фото', **optional)
     email = models.EmailField(unique=True, verbose_name='Email', db_index=True)
@@ -54,7 +55,8 @@ class Newsletter(models.Model):
     count_transition = models.IntegerField(verbose_name='Количество переходов',
                                            **optional)
     message = models.ForeignKey('Message', on_delete=models.SET_NULL,
-                                related_name='newsletter', **optional)
+                                related_name='newsletter',
+                                verbose_name='Сообщение', **optional)
 
     def __str__(self):
         return self.title

@@ -3,13 +3,15 @@ from django.urls import path
 from mail_app.views import MessageListView, ClientListView, NewsletterListView, \
     MessageDetailView, MessageCreateView, MessageUpdateView, \
     MessageDeleteView, ClientDetailView, ClientCreateView, ClientUpdateView, \
-    ClientDeleteView
+    ClientDeleteView, NewsletterDetailView
 from .apps import MailAppConfig
 
 app_name = MailAppConfig.name
 
 urlpatterns = [
     path('', NewsletterListView.as_view(), name='newsletter_list'),
+    path('newsletters/<int:pk>/', NewsletterDetailView.as_view(),
+         name='newsletter_detail'),
     path('messages/', MessageListView.as_view(), name='messages_list'),
     path('messages/<int:pk>/', MessageDetailView.as_view(),
          name='message_detail'),

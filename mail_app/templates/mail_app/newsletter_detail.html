@@ -1,0 +1,95 @@
+{% extends 'mail_app/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+        <div class="col-12">
+            <div class="card mb-4 box-shadow p-2" style="min-height: 90%; width: 90%;">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">
+                        Параметры рассылки</h4>
+                </div>
+                <div class="card-body">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-12">
+
+                                <table class="table">
+                                  <thead>
+                                    <tr>
+                                      <th class="text-lg-start">Название рассылки</th>
+                                      <td style="word-break: break-all;">{{ newsletter.title }}</td>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <th class="text-lg-start">Сообщение</th>
+                                      <td style="word-break: break-all;">{{ newsletter.message }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Статус</th>
+                                      <td style="word-break: break-all;">{{ newsletter.status }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Дата первого отправления</th>
+                                      <td style="word-break: break-all;">{{ newsletter.first_sent_at }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Периодичность</th>
+                                      <td style="word-break: break-all;">{{ newsletter.periodicity }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Количество отправленных</th>
+                                      <td style="word-break: break-all;">{{ newsletter.count_sent }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Количество доставленных</th>
+                                      <td style="word-break: break-all;">{{ newsletter.count_delivered }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Количество переходов</th>
+                                      <td style="word-break: break-all;">{{ newsletter.count_transition }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Последняя попытка отправки</th>
+                                      <td style="word-break: break-all;">{{ attempt.last_attempt_at }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Успешность отправки</th>
+                                      <td style="word-break: break-all;">{{ attempt.successfully }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Ответ сервера</th>
+                                      <td style="word-break: break-all;">{{ attempt.mail_response }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Привязанные клиенты</th>
+                                      <td style="word-break: break-all;">???</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="card-footer">
+                    <a href="#"
+                           class="btn btn-lg btn-block btn-outline-warning m-2"
+                           role="button">
+                          Редактировать
+                    </a>
+                    <a href="#"
+                           class="btn btn-lg btn-block btn-outline-danger"
+                           role="button">
+                          Удалить
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

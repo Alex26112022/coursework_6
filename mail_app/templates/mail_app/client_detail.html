@@ -1,0 +1,102 @@
+{% extends 'mail_app/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+        <div class="col-12">
+            <div class="card mb-4 box-shadow p-2" style="min-height: 90%; width: 90%;">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">
+                        Данные клиента</h4>
+                </div>
+                <div class="card-body">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-7">
+
+                                <h5>Личная информация</h5>
+                                <table class="table">
+                                  <thead>
+                                    <tr>
+                                      <th class="text-lg-start">Email</th>
+                                      <td style="word-break: break-all;">{{ client.email }}</td>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <th class="text-lg-start">Имя</th>
+                                      <td style="word-break: break-all;">{{ client.name }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Фамилия</th>
+                                      <td style="word-break: break-all;">{{ client.surname }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Отчество</th>
+                                      <td style="word-break: break-all;">{{ client.father_name }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Комментарий</th>
+                                      <td style="word-break: break-all;">{{ client.comment }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Дата добавления</th>
+                                      <td style="word-break: break-all;">{{ client.created_at }}</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+
+                                <h5>Статистика</h5>
+                                <table class="table">
+                                  <thead>
+                                    <tr>
+                                      <th class="text-lg-start">Статус</th>
+                                      <td style="word-break: break-all;">{{ client.status }}</td>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <th class="text-lg-start">Рассылка</th>
+                                      <td style="word-break: break-all;">{{ client.newsletter }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Последний переход по ссылке</th>
+                                      <td style="word-break: break-all;">{{ client.last_link_click }}</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+
+                            </div>
+                            <div class="col-5">
+                                {% if client.photo %}
+                                    <img src="{{ client.photo.url }}" class=""
+                                         style="max-height: 320px; min-height: 320px; max-width: 420px; min-width: 420px;">
+                                {% else %}
+                                    <img src="/media/ava.jpeg" class=""
+                                         style="max-height: 320px; min-height: 320px; max-width: 420px; min-width: 420px;">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="card-footer">
+                    <a href="{% url 'mail_app:client_edit' client.pk %}"
+                           class="btn btn-lg btn-block btn-outline-warning m-2"
+                           role="button">
+                          Редактировать
+                    </a>
+                    <a href="{% url 'mail_app:client_delete' client.pk %}"
+                           class="btn btn-lg btn-block btn-outline-danger"
+                           role="button">
+                          Удалить
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

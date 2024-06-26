@@ -32,7 +32,7 @@ class MessageUpdateView(UpdateView):
     success_url = reverse_lazy('mail_app:messages_list')
 
 
-class ClientDeleteView(DeleteView):
+class MessageDeleteView(DeleteView):
     model = Message
     success_url = reverse_lazy('mail_app:messages_list')
 
@@ -40,3 +40,26 @@ class ClientDeleteView(DeleteView):
 class ClientListView(ListView):
     model = Client
     paginate_by = 20
+
+
+class ClientDetailView(DetailView):
+    model = Client
+
+
+class ClientCreateView(CreateView):
+    model = Client
+    fields = ['photo', 'email', 'name', 'surname', 'father_name', 'comment',
+              'status']
+    success_url = reverse_lazy('mail_app:clients_list')
+
+
+class ClientUpdateView(UpdateView):
+    model = Client
+    fields = ['photo', 'email', 'name', 'surname', 'father_name', 'comment',
+              'status']
+    success_url = reverse_lazy('mail_app:clients_list')
+
+
+class ClientDeleteView(DeleteView):
+    model = Client
+    success_url = reverse_lazy('mail_app:clients_list')

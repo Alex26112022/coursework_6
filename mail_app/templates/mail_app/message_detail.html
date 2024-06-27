@@ -1,0 +1,37 @@
+{% extends 'mail_app/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+        <div class="col-12">
+            <div class="card mb-4 box-shadow p-2" style="min-height: 90%; width: 90%;">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">
+                        {{ message.theme }}</h4>
+                </div>
+                <div class="card-body">
+                    <p>{{ message.body }}</p>
+                    {% if message.image %}
+                        <img src="{{ message.image.url }}" class="m-4"
+                             style="max-height: 400px; min-height: 400px;">
+                    {% else %}
+                        <img src="/media/ava.jpeg" class="m-4"
+                             style="max-height: 400px; min-height: 400px;">
+                    {% endif %}
+                    <br>
+                    <a href="{% url 'mail_app:message_edit' message.pk %}"
+                       class="btn btn-lg btn-block btn-outline-warning"
+                       role="button">
+                      Редактировать
+                    </a>
+                    <a href="{% url 'mail_app:message_delete' message.pk %}"
+                       class="btn btn-lg btn-block btn-outline-danger"
+                       role="button">
+                      Удалить
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

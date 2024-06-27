@@ -4,9 +4,10 @@ optional = {'blank': True, 'null': True}
 
 
 class Client(models.Model):
-    status_list = [('ACTIVE', 'Активный'), ('INACTIVE', 'Неактивный'),
-                   ('NEW', 'Новый'), ('POTENTIAL', 'Потенциальный'),
-                   ('BLOCKED', 'Заблокированный'), ('UNKNOWN', 'Неизвестный')]
+    status_list = [('Активный', 'Активный'), ('Неактивный', 'Неактивный'),
+                   ('Новый', 'Новый'), ('Потенциальный', 'Потенциальный'),
+                   ('Заблокированный', 'Заблокированный'),
+                   ('Неизвестный', 'Неизвестный')]
     photo = models.ImageField(upload_to='mail_app/clients/',
                               verbose_name='Фото', **optional)
     email = models.EmailField(unique=True, verbose_name='Email', db_index=True)
@@ -17,7 +18,7 @@ class Client(models.Model):
                                    **optional)
     comment = models.TextField(verbose_name='Комментарий', **optional)
     status = models.CharField(max_length=255, choices=status_list,
-                              default='UNKNOWN')
+                              default='Неизвестный')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата '
                                                                       'добавления')
     last_link_click = models.DateTimeField(
@@ -36,15 +37,15 @@ class Client(models.Model):
 
 
 class Newsletter(models.Model):
-    status_list = [('CREATE', 'Создана'),
-                   ('START', 'Запущена'),
-                   ('STOP', 'Остановлена')]
+    status_list = [('Создана', 'Создана'),
+                   ('Запущена', 'Запущена'),
+                   ('Остановлена', 'Остановлена')]
 
     title = models.CharField(max_length=255, verbose_name='Название рассылки')
     first_sent_at = models.DateTimeField(
         verbose_name='Дата первого отправления', **optional)
     status = models.CharField(max_length=255, choices=status_list,
-                              default='CREATE', verbose_name='Статус')
+                              default='Создана', verbose_name='Статус')
     periodicity = models.CharField(max_length=255,
                                    verbose_name='Периодичность', **optional)
     count_sent = models.IntegerField(verbose_name='Количество отправленных',
@@ -54,7 +55,8 @@ class Newsletter(models.Model):
     count_transition = models.IntegerField(verbose_name='Количество переходов',
                                            **optional)
     message = models.ForeignKey('Message', on_delete=models.SET_NULL,
-                                related_name='newsletter', **optional)
+                                related_name='newsletter',
+                                verbose_name='Сообщение', **optional)
 
     def __str__(self):
         return self.title

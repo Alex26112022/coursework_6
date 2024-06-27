@@ -6,22 +6,37 @@
       <tr class="table-info">
       <th scope="col"></th>
       <th scope="col">Название</th>
+      <th scope="col">Сообщение</th>
       <th scope="col">Статус</th>
+      <th scope="col">Периодичность</th>
       <th scope="col">Отправлено</th>
       <th scope="col">Доставлено</th>
       <th scope="col">Переходов</th>
     </tr>
     </thead>
+    {% for newsletter in object_list %}
     <tbody class="table-group-divider">
       <tr>
         <th><button type="button"
                     class="btn btn-outline-success">Кнопка</button></th>
-        <td><a href="#">Рассылка 1</a></td>
-        <td>Запущена</td>
-        <td>20</td>
-        <td>15</td>
-        <td>200</td>
+        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.pk %}" class="nav-link link-body-emphasis">{{ newsletter.title }}</a></td>
+        <td><a href="{% url 'mail_app:message_detail' newsletter.message.pk %}">{{ newsletter.message }}</a></td>
+        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.pk %}" class="nav-link link-body-emphasis">{{ newsletter.status }}</a></td>
+        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.pk %}" class="nav-link link-body-emphasis">{{ newsletter.periodicity }}</a></td>
+        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.pk %}" class="nav-link link-body-emphasis">{{ newsletter.count_sent }}</a></td>
+        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.pk %}" class="nav-link link-body-emphasis">{{ newsletter.count_delivered }}</a></td>
+        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.pk %}" class="nav-link link-body-emphasis">{{ newsletter.count_transition }}</a></td>
       </tr>
     </tbody>
+    {% endfor %}
 </table>
+
+<div class="col-12 m-3
+   d-flex align-items-center justify-content-center">
+  <a href="{% url 'mail_app:newsletter_add' %}"
+     class="btn btn-block btn-outline-success btn-lg"
+     role="button">Добавить рассылку
+  </a>
+</div>
+
 {% endblock %}

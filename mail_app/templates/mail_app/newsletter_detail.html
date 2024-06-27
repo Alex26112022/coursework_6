@@ -24,7 +24,12 @@
                                   <tbody>
                                     <tr>
                                       <th class="text-lg-start">Сообщение</th>
-                                      <td style="word-break: break-all;">{{ newsletter.message }}</td>
+                                      <td style="word-break: break-all;">
+                                        <ins>
+                                          <a href="{% url 'mail_app:message_detail' newsletter.message.pk %}" class="nav-link link-body-emphasis">
+                                          {{ newsletter.message }}</a>
+                                        </ins>
+                                      </td>
                                     </tr>
                                     <tr>
                                       <th class="text-lg-start">Статус</th>
@@ -52,19 +57,32 @@
                                     </tr>
                                     <tr>
                                       <th class="text-lg-start">Последняя попытка отправки</th>
-                                      <td style="word-break: break-all;">{{ attempt.last_attempt_at }}</td>
+                                      <td style="word-break: break-all;">???</td>
                                     </tr>
                                     <tr>
                                       <th class="text-lg-start">Успешность отправки</th>
-                                      <td style="word-break: break-all;">{{ attempt.successfully }}</td>
+                                      <td style="word-break: break-all;">???</td>
                                     </tr>
                                     <tr>
                                       <th class="text-lg-start">Ответ сервера</th>
-                                      <td style="word-break: break-all;">{{ attempt.mail_response }}</td>
+                                      <td style="word-break: break-all;">???</td>
                                     </tr>
                                     <tr>
-                                      <th class="text-lg-start">Привязанные клиенты</th>
-                                      <td style="word-break: break-all;">???</td>
+                                      <th class="text-lg-start">Закрепленные клиенты</th>
+                                      <td style="word-break: break-all;">
+
+                                        <div class="btn-group">
+                                          <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Список
+                                          </button>
+                                          <ul class="dropdown-menu">
+                                            {% for client in clients %}
+                                            <li><a class="dropdown-item" href="{% url 'mail_app:client_detail' client.pk %}">{{ client }}</a></li>
+                                            {% endfor %}
+                                          </ul>
+                                        </div>
+
+                                      </td>
                                     </tr>
                                   </tbody>
                                 </table>
@@ -75,12 +93,12 @@
                 </div>
 
                 <div class="card-footer">
-                    <a href="#"
+                    <a href="{% url 'mail_app:newsletter_edit' newsletter.pk %}"
                            class="btn btn-lg btn-block btn-outline-warning m-2"
                            role="button">
                           Редактировать
                     </a>
-                    <a href="#"
+                    <a href="{% url 'mail_app:newsletter_delete' newsletter.pk %}"
                            class="btn btn-lg btn-block btn-outline-danger"
                            role="button">
                           Удалить
@@ -91,5 +109,4 @@
         </div>
     </div>
 </div>
-
 {% endblock %}

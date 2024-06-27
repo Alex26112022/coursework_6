@@ -20,7 +20,7 @@
         <th><button type="button"
                     class="btn btn-outline-success">Кнопка</button></th>
         <td><a href="{% url 'mail_app:newsletter_detail' newsletter.pk %}" class="nav-link link-body-emphasis">{{ newsletter.title }}</a></td>
-        <td><a href="#">{{ newsletter.message }}</a></td>
+        <td><a href="{% url 'mail_app:message_detail' newsletter.message.pk %}">{{ newsletter.message }}</a></td>
         <td><a href="{% url 'mail_app:newsletter_detail' newsletter.pk %}" class="nav-link link-body-emphasis">{{ newsletter.status }}</a></td>
         <td><a href="{% url 'mail_app:newsletter_detail' newsletter.pk %}" class="nav-link link-body-emphasis">{{ newsletter.periodicity }}</a></td>
         <td><a href="{% url 'mail_app:newsletter_detail' newsletter.pk %}" class="nav-link link-body-emphasis">{{ newsletter.count_sent }}</a></td>
@@ -33,7 +33,7 @@
 
 <div class="col-12 m-3
    d-flex align-items-center justify-content-center">
-  <a href="#"
+  <a href="{% url 'mail_app:newsletter_add' %}"
      class="btn btn-block btn-outline-success btn-lg"
      role="button">Добавить рассылку
   </a>

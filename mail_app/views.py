@@ -16,12 +16,26 @@ class NewsletterDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        try:
-            attempt = MailingAttempt.objects.get(pk=self.kwargs['pk'])
-            context['attempt'] = attempt
-        except MailingAttempt.DoesNotExist:
-            context['attempt'] = None
+        clients = Client.objects.filter(newsletter=self.object)
+        context['clients'] = clients
         return context
+
+
+class NewsletterCreateView(CreateView):
+    model = Newsletter
+    fields = ['title', 'status', 'periodicity', 'message']
+    success_url = reverse_lazy('mail_app:newsletter_list')
+
+
+class NewsletterUpdateView(UpdateView):
+    model = Newsletter
+    fields = ['title', 'status', 'periodicity', 'message']
+    success_url = reverse_lazy('mail_app:newsletter_list')
+
+
+class NewsletterDeleteView(DeleteView):
+    model = Newsletter
+    success_url = reverse_lazy('mail_app:newsletter_list')
 
 
 class MessageListView(ListView):
@@ -62,14 +76,14 @@ class ClientDetailView(DetailView):
 class ClientCreateView(CreateView):
     model = Client
     fields = ['photo', 'email', 'name', 'surname', 'father_name', 'comment',
-              'status']
+              'status', 'newsletter']
     success_url = reverse_lazy('mail_app:clients_list')
 
 
 class ClientUpdateView(UpdateView):
     model = Client
     fields = ['photo', 'email', 'name', 'surname', 'father_name', 'comment',
-              'status']
+              'status', 'newsletter']
     success_url = reverse_lazy('mail_app:clients_list')
 
 

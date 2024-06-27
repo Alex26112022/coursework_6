@@ -17,6 +17,9 @@
                                 <table class="table">
                                   <thead>
                                     <tr>
+                                      <th class="text-lg">Основная информация</th>
+                                    </tr>
+                                    <tr>
                                       <th class="text-lg-start">Название рассылки</th>
                                       <td style="word-break: break-all;">{{ newsletter.title }}</td>
                                     </tr>
@@ -56,16 +59,46 @@
                                       <td style="word-break: break-all;">{{ newsletter.count_transition }}</td>
                                     </tr>
                                     <tr>
+                                      <th class="text-lg">Статистика попыток</th>
+                                    </tr>
+                                    <tr>
                                       <th class="text-lg-start">Последняя попытка отправки</th>
-                                      <td style="word-break: break-all;">???</td>
+                                      <td style="word-break: break-all;">{{ attempts.0.last_attempt_at }}</td>
                                     </tr>
                                     <tr>
                                       <th class="text-lg-start">Успешность отправки</th>
-                                      <td style="word-break: break-all;">???</td>
+                                      <td style="word-break: break-all;">{{ attempts.0.successfully }}</td>
                                     </tr>
                                     <tr>
                                       <th class="text-lg-start">Ответ сервера</th>
-                                      <td style="word-break: break-all;">???</td>
+                                      <td style="word-break: break-all;">{{ attempts.0.mail_response }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">
+                                        <ins>
+
+                                          <div class="btn-group">
+                                          <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Подробнее...
+                                          </button>
+                                          <ul class="dropdown-menu">
+                                            <p class="p-2">Последняя попытка отправки | Успешность отправки | Ответ сервера</p>
+                                            {% for attempt in attempts %}
+                                            <li style="width: 580px;" class="p-2">
+                                              <p>
+                                                {{ attempt.last_attempt_at }}.................................{{ attempt.successfully }}...............................{{ attempt.mail_response }}
+                                              </p>
+                                            </li>
+                                            {% endfor %}
+                                          </ul>
+                                        </div>
+
+                                        </ins>
+                                      </th>
+                                      <td style="word-break: break-all;"></td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg">Доп. информация</th>
                                     </tr>
                                     <tr>
                                       <th class="text-lg-start">Закрепленные клиенты</th>
@@ -77,7 +110,7 @@
                                           </button>
                                           <ul class="dropdown-menu">
                                             {% for client in clients %}
-                                            <li><a class="dropdown-item" href="{% url 'mail_app:client_detail' client.pk %}">{{ client }}</a></li>
+                                            <li><a class="dropdown-item" href="{% url 'mail_app:client_detail' client.pk %}">{{ client | truncatechars:30 }}</a></li>
                                             {% endfor %}
                                           </ul>
                                         </div>

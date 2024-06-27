@@ -94,6 +94,9 @@ class MailingAttempt(models.Model):
                                    verbose_name='Рассылка',
                                    related_name='attempt')
 
+    def __str__(self):
+        return f'{self.last_attempt_at} {self.successfully} {self.mail_response}'
+
     class Meta:
         verbose_name = 'Попытка отправки рассылки'
         verbose_name_plural = 'Попытки отправки рассылок'

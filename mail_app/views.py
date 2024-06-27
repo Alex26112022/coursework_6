@@ -17,7 +17,9 @@ class NewsletterDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         clients = Client.objects.filter(newsletter=self.object)
+        attempts = MailingAttempt.objects.filter(newsletter=self.object)
         context['clients'] = clients
+        context['attempts'] = attempts
         return context
 
 

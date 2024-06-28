@@ -28,10 +28,14 @@
                                     <tr>
                                       <th class="text-lg-start">Сообщение</th>
                                       <td style="word-break: break-all;">
+                                        {% if newsletter.message %}
                                         <ins>
                                           <a href="{% url 'mail_app:message_detail' newsletter.message.pk %}" class="nav-link link-body-emphasis">
                                           {{ newsletter.message }}</a>
                                         </ins>
+                                        {% else %}
+                                        <p>-</p>
+                                        {% endif %}
                                       </td>
                                     </tr>
                                     <tr>

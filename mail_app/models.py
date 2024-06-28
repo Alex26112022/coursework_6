@@ -1,4 +1,5 @@
 from django.db import models
+from pytils.translit import slugify
 
 optional = {'blank': True, 'null': True}
 
@@ -11,6 +12,7 @@ class Client(models.Model):
     photo = models.ImageField(upload_to='mail_app/clients/',
                               verbose_name='Фото', **optional)
     email = models.EmailField(unique=True, verbose_name='Email', db_index=True)
+    slug = models.SlugField(max_length=255, verbose_name='Слаг', **optional)
     name = models.CharField(max_length=255, verbose_name='Имя', **optional)
     surname = models.CharField(max_length=255, verbose_name='Фамилия',
                                **optional)
@@ -42,6 +44,7 @@ class Newsletter(models.Model):
                    ('Остановлена', 'Остановлена')]
 
     title = models.CharField(max_length=255, verbose_name='Название рассылки')
+    slug = models.SlugField(max_length=255, verbose_name='Слаг', **optional)
     first_sent_at = models.DateTimeField(
         verbose_name='Дата первого отправления', **optional)
     status = models.CharField(max_length=255, choices=status_list,

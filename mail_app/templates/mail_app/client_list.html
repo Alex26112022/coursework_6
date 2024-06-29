@@ -16,12 +16,12 @@
     {% for client in object_list %}
     <tbody class="table-group-divider">
       <tr>
-        <td><a href="{% url 'mail_app:client_detail' client.pk %}" class="nav-link link-body-emphasis">{{ client.email }}</a></td>
-        <td><a href="{% url 'mail_app:client_detail' client.pk %}" class="nav-link link-body-emphasis">{{ client.name }}</a></td>
-        <td><a href="{% url 'mail_app:client_detail' client.pk %}" class="nav-link link-body-emphasis">{{ client.surname }}</a></td>
-        <td><a href="{% url 'mail_app:client_detail' client.pk %}" class="nav-link link-body-emphasis">{{ client.father_name }}</a></td>
-        <td><a href="{% url 'mail_app:client_detail' client.pk %}" class="nav-link link-body-emphasis">{{ client.status }}</a></td>
-        <td><a href="{% url 'mail_app:client_detail' client.pk %}" class="nav-link link-body-emphasis">{{ client.newsletter }}</a></td>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis">{{ client.email }}</a></td>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis">{{ client.name }}</a></td>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis">{{ client.surname }}</a></td>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis">{{ client.father_name }}</a></td>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis">{{ client.status }}</a></td>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis">{{ client.newsletter }}</a></td>
       </tr>
     </tbody>
     {% endfor %}

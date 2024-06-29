@@ -19,7 +19,7 @@
       <tr>
         <th><button type="button"
                     class="btn btn-outline-success">Кнопка</button></th>
-        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.pk %}" class="nav-link link-body-emphasis">{{ newsletter.title }}</a></td>
+        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}" class="nav-link link-body-emphasis">{{ newsletter.title }}</a></td>
         <td>
           {% if newsletter.message %}
           <a href="{% url 'mail_app:message_detail' newsletter.message.pk %}">{{ newsletter.message }}</a>
@@ -27,11 +27,11 @@
           <p>-</p>
           {% endif %}
         </td>
-        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.pk %}" class="nav-link link-body-emphasis">{{ newsletter.status }}</a></td>
-        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.pk %}" class="nav-link link-body-emphasis">{{ newsletter.periodicity }}</a></td>
-        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.pk %}" class="nav-link link-body-emphasis">{{ newsletter.count_sent }}</a></td>
-        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.pk %}" class="nav-link link-body-emphasis">{{ newsletter.count_delivered }}</a></td>
-        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.pk %}" class="nav-link link-body-emphasis">{{ newsletter.count_transition }}</a></td>
+        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}" class="nav-link link-body-emphasis">{{ newsletter.status }}</a></td>
+        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}" class="nav-link link-body-emphasis">{{ newsletter.periodicity }}</a></td>
+        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}" class="nav-link link-body-emphasis">{{ newsletter.count_sent }}</a></td>
+        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}" class="nav-link link-body-emphasis">{{ newsletter.count_delivered }}</a></td>
+        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}" class="nav-link link-body-emphasis">{{ newsletter.count_transition }}</a></td>
       </tr>
     </tbody>
     {% endfor %}

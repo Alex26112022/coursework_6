@@ -83,12 +83,12 @@
                 </div>
 
                 <div class="card-footer">
-                    <a href="{% url 'mail_app:client_edit' client.pk %}"
+                    <a href="{% url 'mail_app:client_edit' client.slug %}"
                            class="btn btn-lg btn-block btn-outline-warning m-2"
                            role="button">
                           Редактировать
                     </a>
-                    <a href="{% url 'mail_app:client_delete' client.pk %}"
+                    <a href="{% url 'mail_app:client_delete' client.slug %}"
                            class="btn btn-lg btn-block btn-outline-danger"
                            role="button">
                           Удалить

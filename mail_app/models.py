@@ -1,4 +1,5 @@
 from django.db import models
+from random import randint
 
 optional = {'blank': True, 'null': True}
 
@@ -11,6 +12,7 @@ class Client(models.Model):
     photo = models.ImageField(upload_to='mail_app/clients/',
                               verbose_name='Фото', **optional)
     email = models.EmailField(unique=True, verbose_name='Email', db_index=True)
+    slug = models.SlugField(max_length=255, verbose_name='Слаг', unique=True)
     name = models.CharField(max_length=255, verbose_name='Имя', **optional)
     surname = models.CharField(max_length=255, verbose_name='Фамилия',
                                **optional)
@@ -41,7 +43,9 @@ class Newsletter(models.Model):
                    ('Запущена', 'Запущена'),
                    ('Остановлена', 'Остановлена')]
 
-    title = models.CharField(max_length=255, verbose_name='Название рассылки')
+    title = models.CharField(max_length=255, verbose_name='Название рассылки',
+                             unique=True)
+    slug = models.SlugField(max_length=255, verbose_name='Слаг', unique=True)
     first_sent_at = models.DateTimeField(
         verbose_name='Дата первого отправления', **optional)
     status = models.CharField(max_length=255, choices=status_list,
@@ -93,6 +97,9 @@ class MailingAttempt(models.Model):
     newsletter = models.ForeignKey('Newsletter', on_delete=models.CASCADE,
                                    verbose_name='Рассылка',
                                    related_name='attempt')
+
+    def __str__(self):
+        return f'{self.last_attempt_at} {self.successfully} {self.mail_response}'
 
     class Meta:
         verbose_name = 'Попытка отправки рассылки'

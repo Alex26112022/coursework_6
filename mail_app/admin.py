@@ -6,15 +6,18 @@ from mail_app.models import Client, Newsletter, Message, MailingAttempt
 
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'email', 'name', 'surname', 'father_name',
+    list_display = ['pk', 'slug', 'email', 'name', 'surname', 'father_name',
                     'status', 'created_at', 'newsletter']
     list_filter = ['status']
     search_fields = ['name', 'surname', 'father_name', 'email']
-    list_display_links = ['pk', 'email', 'name', 'surname', 'father_name',
+    list_display_links = ['pk', 'slug', 'email', 'name', 'surname',
+                          'father_name',
                           'status', 'created_at', 'newsletter']
-    fields = ['photo', 'preview', 'email', 'name', 'surname', 'father_name',
+    fields = ['slug', 'photo', 'preview', 'email', 'name', 'surname',
+              'father_name',
               'comment', 'status', 'newsletter']
     readonly_fields = ['preview']
+    prepopulated_fields = {'slug': ('email',)}
 
     def preview(self, obj):
         return mark_safe(
@@ -23,16 +26,18 @@ class ClientAdmin(admin.ModelAdmin):
 
 @admin.register(Newsletter)
 class NewsletterAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'title', 'message', 'first_sent_at', 'status',
+    list_display = ['pk', 'slug', 'title', 'message', 'first_sent_at',
+                    'status',
                     'periodicity', 'count_sent', 'count_delivered',
                     'count_transition']
     list_filter = ['status']
     search_fields = ['title']
-    list_display_links = ['pk', 'title', 'first_sent_at', 'status',
+    list_display_links = ['pk', 'slug', 'title', 'first_sent_at', 'status',
                           'periodicity',
                           'count_sent', 'count_delivered', 'count_transition',
                           'message']
-    fields = ['title', 'status', 'periodicity', 'message']
+    fields = ['slug', 'title', 'status', 'periodicity', 'message']
+    prepopulated_fields = {'slug': ('title',)}
 
 
 @admin.register(Message)

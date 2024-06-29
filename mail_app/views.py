@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, \
     DeleteView
+from pytils.translit import slugify
 
 from mail_app.models import Message, Client, Newsletter, MailingAttempt
 
@@ -27,6 +28,12 @@ class NewsletterCreateView(CreateView):
     model = Newsletter
     fields = ['title', 'status', 'periodicity', 'message']
     success_url = reverse_lazy('mail_app:newsletter_list')
+
+    def form_valid(self, form):
+        new_newsletter = form.save(commit=False)
+        new_newsletter.slug = slugify(new_newsletter.title)
+        new_newsletter.save()
+        return super().form_valid(form)
 
 
 class NewsletterUpdateView(UpdateView):
@@ -80,6 +87,12 @@ class ClientCreateView(CreateView):
     fields = ['photo', 'email', 'name', 'surname', 'father_name', 'comment',
               'status', 'newsletter']
     success_url = reverse_lazy('mail_app:clients_list')
+
+    def form_valid(self, form):
+        new_client = form.save(commit=False)
+        new_client.slug = slugify(new_client.email)
+        new_client.save()
+        return super().form_valid(form)
 
 
 class ClientUpdateView(UpdateView):

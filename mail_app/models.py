@@ -1,5 +1,5 @@
 from django.db import models
-from pytils.translit import slugify
+from random import randint
 
 optional = {'blank': True, 'null': True}
 
@@ -12,7 +12,7 @@ class Client(models.Model):
     photo = models.ImageField(upload_to='mail_app/clients/',
                               verbose_name='Фото', **optional)
     email = models.EmailField(unique=True, verbose_name='Email', db_index=True)
-    slug = models.SlugField(max_length=255, verbose_name='Слаг', **optional)
+    slug = models.SlugField(max_length=255, verbose_name='Слаг', unique=True)
     name = models.CharField(max_length=255, verbose_name='Имя', **optional)
     surname = models.CharField(max_length=255, verbose_name='Фамилия',
                                **optional)
@@ -43,8 +43,9 @@ class Newsletter(models.Model):
                    ('Запущена', 'Запущена'),
                    ('Остановлена', 'Остановлена')]
 
-    title = models.CharField(max_length=255, verbose_name='Название рассылки')
-    slug = models.SlugField(max_length=255, verbose_name='Слаг', **optional)
+    title = models.CharField(max_length=255, verbose_name='Название рассылки',
+                             unique=True)
+    slug = models.SlugField(max_length=255, verbose_name='Слаг', unique=True)
     first_sent_at = models.DateTimeField(
         verbose_name='Дата первого отправления', **optional)
     status = models.CharField(max_length=255, choices=status_list,

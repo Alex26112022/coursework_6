@@ -28,7 +28,8 @@ def get_info():
         info = el.client.all()
         _ = []
         for item in info:
-            _.append(item.email)
+            if item.status != 'Заблокированный':
+                _.append(item.email)
         clients_info.append(_)
 
     for message, clients in zip(newsletters, clients_info):

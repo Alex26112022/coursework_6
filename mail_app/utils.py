@@ -1,18 +1,16 @@
-from datetime import timedelta
-
 from django.core.mail import send_mail
 from django.utils import timezone
 
 from mail_app.models import Newsletter
 
-now = timezone.now()
+now = timezone.now().date()
 
 
 def my_send_mail():
     """ Мгновенно запускает рассылку, если она попадает в диапазон дат. """
 
     newsletters = Newsletter.objects.filter(status='Запущена',
-                                            first_sent_at__lt=now,
+                                            first_sent_at__lte=now,
                                             last_sent_at__gte=now)
 
     for newsletter in newsletters:
@@ -27,11 +25,9 @@ def my_send_mail():
 
 def my_period_mail():
     """ Периодический запуск рассылок. """
-
     newsletters = Newsletter.objects.filter(status='Запущена',
-                                            first_sent_at__lt=now,
-                                            last_sent_at__gte=now + timedelta(
-                                                days=1))
+                                            first_sent_at__lte=now,
+                                            last_sent_at__gte=now)
 
     for newsletter in newsletters:
         if newsletter.periodicity == 'День' or newsletter.periodicity == 'Неделя' and (

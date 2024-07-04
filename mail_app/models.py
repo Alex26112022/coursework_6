@@ -43,15 +43,22 @@ class Newsletter(models.Model):
                    ('Запущена', 'Запущена'),
                    ('Остановлена', 'Остановлена')]
 
+    periodicity_list = [('День', 'День'), ('Неделя', 'Неделя'),
+                        ('Месяц', 'Месяц'), ('Год', 'Год')]
+
     title = models.CharField(max_length=255, verbose_name='Название рассылки',
                              unique=True)
     slug = models.SlugField(max_length=255, verbose_name='Слаг', unique=True)
     first_sent_at = models.DateTimeField(
         verbose_name='Дата первого отправления', **optional)
+    last_sent_at = models.DateTimeField(
+        verbose_name='Дата крайнего отправления', **optional)
     status = models.CharField(max_length=255, choices=status_list,
                               default='Создана', verbose_name='Статус')
     periodicity = models.CharField(max_length=255,
-                                   verbose_name='Периодичность', **optional)
+                                   verbose_name='Периодичность',
+                                   choices=periodicity_list, default='Год',
+                                   **optional)
     count_sent = models.IntegerField(verbose_name='Количество отправленных',
                                      **optional)
     count_delivered = models.IntegerField(

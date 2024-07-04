@@ -8,10 +8,9 @@
       <th scope="col">Название</th>
       <th scope="col">Сообщение</th>
       <th scope="col">Статус</th>
+      <th scope="col">Дата первого отправления</th>
+      <th scope="col">Дата крайнего отправления</th>
       <th scope="col">Периодичность</th>
-      <th scope="col">Отправлено</th>
-      <th scope="col">Доставлено</th>
-      <th scope="col">Переходов</th>
     </tr>
     </thead>
     {% for newsletter in object_list %}
@@ -28,10 +27,9 @@
           {% endif %}
         </td>
         <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}" class="nav-link link-body-emphasis">{{ newsletter.status }}</a></td>
+        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}" class="nav-link link-body-emphasis">{{ newsletter.first_sent_at }}</a></td>
+        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}" class="nav-link link-body-emphasis">{{ newsletter.last_sent_at }}</a></td>
         <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}" class="nav-link link-body-emphasis">{{ newsletter.periodicity }}</a></td>
-        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}" class="nav-link link-body-emphasis">{{ newsletter.count_sent }}</a></td>
-        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}" class="nav-link link-body-emphasis">{{ newsletter.count_delivered }}</a></td>
-        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}" class="nav-link link-body-emphasis">{{ newsletter.count_transition }}</a></td>
       </tr>
     </tbody>
     {% endfor %}

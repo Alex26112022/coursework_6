@@ -27,16 +27,15 @@ class ClientAdmin(admin.ModelAdmin):
 @admin.register(Newsletter)
 class NewsletterAdmin(admin.ModelAdmin):
     list_display = ['pk', 'slug', 'title', 'message', 'first_sent_at',
-                    'status',
-                    'periodicity', 'count_sent', 'count_delivered',
-                    'count_transition']
+                    'last_sent_at', 'status', 'periodicity', 'count_sent',
+                    'count_delivered', 'count_transition']
     list_filter = ['status']
     search_fields = ['title']
-    list_display_links = ['pk', 'slug', 'title', 'first_sent_at', 'status',
-                          'periodicity',
-                          'count_sent', 'count_delivered', 'count_transition',
-                          'message']
-    fields = ['slug', 'title', 'status', 'periodicity', 'message']
+    list_display_links = ['pk', 'slug', 'title', 'message', 'first_sent_at',
+                          'last_sent_at', 'status', 'periodicity',
+                          'count_sent', 'count_delivered', 'count_transition']
+    fields = ['slug', 'title', 'first_sent_at', 'last_sent_at', 'status',
+              'periodicity', 'message']
     prepopulated_fields = {'slug': ('title',)}
 
 

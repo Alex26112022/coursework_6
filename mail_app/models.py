@@ -50,9 +50,9 @@ class Newsletter(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название рассылки',
                              unique=True)
     slug = models.SlugField(max_length=255, verbose_name='Слаг', unique=True)
-    first_sent_at = models.DateTimeField(
+    first_sent_at = models.DateField(
         verbose_name='Дата первого отправления', default=timezone.now)
-    last_sent_at = models.DateTimeField(
+    last_sent_at = models.DateField(
         verbose_name='Дата крайнего отправления', default=timezone.now)
     status = models.CharField(max_length=255, choices=status_list,
                               default='Создана', verbose_name='Статус')

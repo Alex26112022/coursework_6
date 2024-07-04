@@ -16,6 +16,7 @@ python-dotenv = "^1.0.1"
 pytils = "^0.4.1"
 ipython = "^8.25.0"
 django-extensions = "^3.2.3"
+pytz = "^2024.1"
 
 
 [build-system]

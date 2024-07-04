@@ -1,5 +1,7 @@
 from django.db import models
-from random import randint
+from django.utils import timezone
+
+now = timezone.now()
 
 optional = {'blank': True, 'null': True}
 
@@ -50,15 +52,14 @@ class Newsletter(models.Model):
                              unique=True)
     slug = models.SlugField(max_length=255, verbose_name='Слаг', unique=True)
     first_sent_at = models.DateTimeField(
-        verbose_name='Дата первого отправления', **optional)
+        verbose_name='Дата первого отправления', default=now)
     last_sent_at = models.DateTimeField(
-        verbose_name='Дата крайнего отправления', **optional)
+        verbose_name='Дата крайнего отправления', default=now)
     status = models.CharField(max_length=255, choices=status_list,
                               default='Создана', verbose_name='Статус')
     periodicity = models.CharField(max_length=255,
                                    verbose_name='Периодичность',
-                                   choices=periodicity_list, default='Год',
-                                   **optional)
+                                   choices=periodicity_list, default='Год')
     count_sent = models.IntegerField(verbose_name='Количество отправленных',
                                      **optional)
     count_delivered = models.IntegerField(

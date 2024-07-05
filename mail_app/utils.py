@@ -43,11 +43,11 @@ def my_send_mail():
         else:
             newsletter.count_delivered += 1
             newsletter.save()
+            print(f'Отправлена рассылка {newsletter.title}')
 
         finally:
             newsletter.count_sent += 1
             newsletter.save()
-            print(f'Отправлена рассылка {newsletter.title}')
 
 
 def my_period_mail():
@@ -89,6 +89,7 @@ def my_period_mail():
             else:
                 newsletter.count_delivered += 1
                 newsletter.save()
+                print(f'Отправлена рассылка {newsletter.title}')
 
             finally:
                 newsletter.count_sent += 1

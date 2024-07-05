@@ -47,6 +47,10 @@
                                       <td style="word-break: break-all;">{{ newsletter.first_sent_at }}</td>
                                     </tr>
                                     <tr>
+                                      <th class="text-lg-start">Дата крайнего отправления</th>
+                                      <td style="word-break: break-all;">{{ newsletter.last_sent_at }}</td>
+                                    </tr>
+                                    <tr>
                                       <th class="text-lg-start">Периодичность</th>
                                       <td style="word-break: break-all;">{{ newsletter.periodicity }}</td>
                                     </tr>
@@ -86,6 +90,7 @@
                                             Подробнее...
                                           </button>
                                           <ul class="dropdown-menu">
+                                            {% if attempts %}
                                             <p class="p-2">Последняя попытка отправки | Успешность отправки | Ответ сервера</p>
                                             {% for attempt in attempts %}
                                             <li style="width: 580px;" class="p-2">
@@ -94,6 +99,9 @@
                                               </p>
                                             </li>
                                             {% endfor %}
+                                            {% else %}
+                                            <p class="p-2" style="width: 200px; height: 20px;">Нет попыток отправки.</p>
+                                            {% endif %}
                                           </ul>
                                         </div>
 
@@ -113,9 +121,13 @@
                                             Список
                                           </button>
                                           <ul class="dropdown-menu">
+                                            {% if clients %}
                                             {% for client in clients %}
                                             <li><a class="dropdown-item" href="{% url 'mail_app:client_detail' client.slug %}">{{ client | truncatechars:30 }}</a></li>
                                             {% endfor %}
+                                            {% else %}
+                                            <p class="p-2" style="width: 200px; height: 20px;">Нет клиентов.</p>
+                                            {% endif %}
                                           </ul>
                                         </div>
 

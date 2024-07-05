@@ -1,6 +1,9 @@
+import smtplib
+
 from django.core.mail import send_mail
 from django.utils import timezone
 
+from config import settings
 from mail_app.models import Newsletter, MailingAttempt
 
 now = timezone.now().date()
@@ -19,13 +22,32 @@ def my_send_mail():
             if el.status != 'Заблокированный':
                 clients_list.append(el.email)
 
-        send_mail(newsletter.message.theme, newsletter.message.body,
-                  '123@mail.ru', clients_list, fail_silently=False)
+        try:
+            response = send_mail(newsletter.message.theme,
+                                 newsletter.message.body,
+                                 settings.EMAIL_HOST_USER, clients_list,
+                                 fail_silently=False)
 
-        newsletter.count_sent += 1
-        newsletter.save()
+            attempt = MailingAttempt.objects.create(newsletter=newsletter,
+                                                    successfully=True,
+                                                    mail_response=str(
+                                                        response))
 
-        attempt = MailingAttempt.objects.create(newsletter=newsletter)
+        except smtplib.SMTPException as e:
+            attempt = MailingAttempt.objects.create(newsletter=newsletter,
+                                                    successfully=False,
+                                                    mail_response=str(e))
+
+            print(f'Ошибка при отправке рассылки {newsletter.title}: {str(e)}')
+
+        else:
+            newsletter.count_delivered += 1
+            newsletter.save()
+
+        finally:
+            newsletter.count_sent += 1
+            newsletter.save()
+            print(f'Отправлена рассылка {newsletter.title}')
 
 
 def my_period_mail():
@@ -45,13 +67,32 @@ def my_period_mail():
                 if el.status != 'Заблокированный':
                     clients_list.append(el.email)
 
-            send_mail(newsletter.message.theme, newsletter.message.body,
-                      '123@mail.ru', clients_list, fail_silently=False)
+            try:
+                response = send_mail(newsletter.message.theme,
+                                     newsletter.message.body,
+                                     settings.EMAIL_HOST_USER, clients_list,
+                                     fail_silently=False)
 
-            newsletter.count_sent += 1
-            newsletter.save()
+                attempt = MailingAttempt.objects.create(newsletter=newsletter,
+                                                        successfully=True,
+                                                        mail_response=str(
+                                                            response))
 
-            attempt = MailingAttempt.objects.create(newsletter=newsletter)
+            except smtplib.SMTPException as e:
+                attempt = MailingAttempt.objects.create(newsletter=newsletter,
+                                                        successfully=False,
+                                                        mail_response=str(e))
+
+                print(
+                    f'Ошибка при отправке рассылки {newsletter.title}: {str(e)}')
+
+            else:
+                newsletter.count_delivered += 1
+                newsletter.save()
+
+            finally:
+                newsletter.count_sent += 1
+                newsletter.save()
 
 
 def my_send_status():

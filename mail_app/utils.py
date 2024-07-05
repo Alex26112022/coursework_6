@@ -1,7 +1,7 @@
 from django.core.mail import send_mail
 from django.utils import timezone
 
-from mail_app.models import Newsletter
+from mail_app.models import Newsletter, MailingAttempt
 
 now = timezone.now().date()
 
@@ -21,6 +21,11 @@ def my_send_mail():
 
         send_mail(newsletter.message.theme, newsletter.message.body,
                   '123@mail.ru', clients_list, fail_silently=False)
+
+        newsletter.count_sent += 1
+        newsletter.save()
+
+        attempt = MailingAttempt.objects.create(newsletter=newsletter)
 
 
 def my_period_mail():
@@ -42,3 +47,17 @@ def my_period_mail():
 
             send_mail(newsletter.message.theme, newsletter.message.body,
                       '123@mail.ru', clients_list, fail_silently=False)
+
+            newsletter.count_sent += 1
+            newsletter.save()
+
+            attempt = MailingAttempt.objects.create(newsletter=newsletter)
+
+
+def my_send_status():
+    """ Проверяет актуальность статуса рассылки. """
+    newsletters = Newsletter.objects.filter(last_sent_at__lt=now)
+    for newsletter in newsletters:
+        newsletter.status = 'Остановлена'
+        newsletter.save()
+    print('Статусы обновлены')

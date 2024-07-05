@@ -60,11 +60,11 @@ class Newsletter(models.Model):
                                    verbose_name='Периодичность',
                                    choices=periodicity_list, default='Год')
     count_sent = models.IntegerField(verbose_name='Количество отправленных',
-                                     **optional)
+                                     default=0)
     count_delivered = models.IntegerField(
-        verbose_name='Количество доставленных', **optional)
+        verbose_name='Количество доставленных', default=0)
     count_transition = models.IntegerField(verbose_name='Количество переходов',
-                                           **optional)
+                                           default=0)
     message = models.ForeignKey('Message', on_delete=models.SET_NULL,
                                 related_name='newsletter',
                                 verbose_name='Сообщение', **optional)

@@ -1,12 +1,40 @@
 import smtplib
+import csv
+import os
 
 from django.core.mail import send_mail
 from django.utils import timezone
 
 from config import settings
 from mail_app.models import Newsletter, MailingAttempt
+from my_config import path_csv
 
 now = timezone.now().date()
+
+
+def write_csv(csv_file, pk_, send_, email_, message_, time_, success_,
+              answer_):
+    """ Записывает в CSV файл данные по попыткам рассылок. """
+    if not os.path.exists(csv_file):
+        with open(csv_file, 'w', encoding='utf8', newline='') as csvfile:
+            fieldnames = ['ID', 'РАССЫЛКА', 'EMAIL', 'СООБЩЕНИЕ',
+                          'ВРЕМЯ ПОПЫТКИ', 'УСПЕШНОСТЬ', 'ОТВЕТ СЕРВЕРА']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+
+            writer.writerow({'ID': pk_, 'РАССЫЛКА': send_, 'EMAIL': email_,
+                             'СООБЩЕНИЕ': message_, 'ВРЕМЯ ПОПЫТКИ': time_,
+                             'УСПЕШНОСТЬ': success_, 'ОТВЕТ СЕРВЕРА': answer_})
+
+    else:
+        with open(csv_file, 'a', encoding='utf8', newline='') as csvfile:
+            fieldnames = ['ID', 'РАССЫЛКА', 'EMAIL', 'СООБЩЕНИЕ',
+                          'ВРЕМЯ ПОПЫТКИ', 'УСПЕШНОСТЬ', 'ОТВЕТ СЕРВЕРА']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+            writer.writerow({'ID': pk_, 'РАССЫЛКА': send_, 'EMAIL': email_,
+                             'СООБЩЕНИЕ': message_, 'ВРЕМЯ ПОПЫТКИ': time_,
+                             'УСПЕШНОСТЬ': success_, 'ОТВЕТ СЕРВЕРА': answer_})
 
 
 def my_send_mail():
@@ -48,6 +76,9 @@ def my_send_mail():
         finally:
             newsletter.count_sent += 1
             newsletter.save()
+            write_csv(path_csv, newsletter.pk, newsletter.title, clients_list,
+                      newsletter.message, attempt.last_attempt_at,
+                      attempt.successfully, attempt.mail_response)
 
 
 def my_period_mail():
@@ -94,6 +125,10 @@ def my_period_mail():
             finally:
                 newsletter.count_sent += 1
                 newsletter.save()
+                write_csv(path_csv, newsletter.pk, newsletter.title,
+                          clients_list,
+                          newsletter.message, attempt.last_attempt_at,
+                          attempt.successfully, attempt.mail_response)
 
 
 def my_send_status():

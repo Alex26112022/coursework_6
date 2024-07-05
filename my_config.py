@@ -9,6 +9,7 @@ yandex_password = os.getenv('YANDEX_PASSWORD')
 
 ROOT_DIR = os.path.dirname(__file__)
 database_params = os.path.join(ROOT_DIR, 'database.ini')
+path_csv = os.path.join(ROOT_DIR, 'attempts.csv')
 
 
 def config(filename=database_params, section="postgresql"):

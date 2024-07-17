@@ -4,10 +4,10 @@ from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 
 from config.settings import EMAIL_HOST_USER
-from users.forms import UserRegisterForm
+from users.forms import UserRegisterForm, UserProfileForm
 
 
 def notification(request):
@@ -33,3 +33,13 @@ class UserCreate(CreateView):
                   from_email=EMAIL_HOST_USER,
                   recipient_list=[user.email])
         return super().form_valid(form)
+
+
+class ProfileView(UpdateView):
+    """ Отображает и редактирует профиль пользователя. """
+    model = get_user_model()
+    form_class = UserProfileForm
+    success_url = reverse_lazy('users:profile')
+
+    def get_object(self, queryset=None):
+        return self.request.user

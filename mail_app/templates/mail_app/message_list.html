@@ -31,7 +31,7 @@
 
       </div>
     </div>
-
+  {% if user.is_authenticated %}
   <div class="col-12 h-100 m-3
      d-flex align-items-center justify-content-center">
     <a href="{% url 'mail_app:message_add' %}"
@@ -40,7 +40,7 @@
       шаблон
     </a>
   </div>
-
+  {% endif %}
   {% include 'mail_app/includes/inc_paginator.html' %}
 
 </div>

@@ -27,7 +27,7 @@
     {% endfor %}
   </table>
 </div>
-
+{% if user.is_authenticated %}
 <div class="col-12 m-3
    d-flex align-items-center justify-content-center">
   <a href="{% url 'mail_app:client_add' %}"
@@ -35,6 +35,6 @@
      role="button">Добавить клиента
   </a>
 </div>
-
+{% endif %}
 {% include 'mail_app/includes/inc_paginator.html' %}
 {% endblock %}

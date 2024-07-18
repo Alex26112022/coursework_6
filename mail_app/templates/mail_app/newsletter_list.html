@@ -34,7 +34,7 @@
     </tbody>
     {% endfor %}
 </table>
-
+{% if user.is_authenticated %}
 <div class="col-12 m-3
    d-flex align-items-center justify-content-center">
   <a href="{% url 'mail_app:newsletter_add' %}"
@@ -42,5 +42,5 @@
      role="button">Добавить рассылку
   </a>
 </div>
-
+{% endif %}
 {% endblock %}

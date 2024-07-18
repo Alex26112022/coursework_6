@@ -18,9 +18,9 @@
       <tr>
         <td>
           {% if user_.is_active %}
-          <button class="btn btn-danger">Заблокировать</button>
+          <a href="{% url 'users:user_block' user_.pk%}" class="btn btn-danger">Заблокировать</a>
           {% else %}
-          <button class="btn btn-success">Разблокировать</button>
+          <a href="{% url 'users:user_block' user_.pk%}" class="btn btn-success">Разблокировать</a>
           {% endif %}
         </td>
         <td>

@@ -36,6 +36,8 @@ class NewsletterCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         new_newsletter = form.save(commit=False)
         new_newsletter.slug = slugify(new_newsletter.title)
+        user = self.request.user
+        new_newsletter.owner = user
         new_newsletter.save()
         return super().form_valid(form)
 
@@ -75,14 +77,21 @@ class MessageDetailView(DetailView):
 class MessageCreateView(LoginRequiredMixin, CreateView):
     """ Создает новое сообщение. """
     model = Message
-    fields = '__all__'
+    fields = ['theme', 'body', 'image']
     success_url = reverse_lazy('mail_app:messages_list')
+
+    def form_valid(self, form):
+        message = form.save(commit=False)
+        user = self.request.user
+        message.owner = user
+        message.save()
+        return super().form_valid(form)
 
 
 class MessageUpdateView(LoginRequiredMixin, UpdateView):
     """ Редактирует сообщение. """
     model = Message
-    fields = '__all__'
+    fields = ['theme', 'body', 'image']
     success_url = reverse_lazy('mail_app:messages_list')
 
 
@@ -113,6 +122,8 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         new_client = form.save(commit=False)
         new_client.slug = slugify(new_client.email)
+        user = self.request.user
+        new_client.owner = user
         new_client.save()
         return super().form_valid(form)
 

@@ -51,8 +51,11 @@ def my_send_mail():
                 clients_list.append(el.email)
 
         try:
+            message = (f'Подробная информация по ссылке '
+                       f'http://127.0.0.1:8000/messages/{newsletter.message.pk}/')
+
             response = send_mail(newsletter.message.theme,
-                                 newsletter.message.body,
+                                 f'{newsletter.message.body}\n{message}',
                                  settings.EMAIL_HOST_USER, clients_list,
                                  fail_silently=False)
 
@@ -99,8 +102,11 @@ def my_period_mail():
                     clients_list.append(el.email)
 
             try:
+                message = (f'Подробная информация по ссылке '
+                           f'http://127.0.0.1:8000/messages/{newsletter.message.pk}/')
+
                 response = send_mail(newsletter.message.theme,
-                                     newsletter.message.body,
+                                     f'{newsletter.message.body}\n{message}',
                                      settings.EMAIL_HOST_USER, clients_list,
                                      fail_silently=False)
 

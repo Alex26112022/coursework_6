@@ -64,6 +64,13 @@ class MessageDetailView(DetailView):
     """ Выводит подробную информацию о сообщении. """
     model = Message
 
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if not self.request.user.is_authenticated:
+            obj.views_count += 1
+        obj.save()
+        return obj
+
 
 class MessageCreateView(LoginRequiredMixin, CreateView):
     """ Создает новое сообщение. """

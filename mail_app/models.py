@@ -62,8 +62,6 @@ class Newsletter(models.Model):
                                      default=0)
     count_delivered = models.IntegerField(
         verbose_name='Количество доставленных', default=0)
-    count_transition = models.IntegerField(verbose_name='Количество переходов',
-                                           default=0)
     message = models.ForeignKey('Message', on_delete=models.SET_NULL,
                                 related_name='newsletter',
                                 verbose_name='Сообщение', **optional)
@@ -83,6 +81,8 @@ class Message(models.Model):
     body = models.TextField(verbose_name='Текст сообщения', **optional)
     image = models.ImageField(upload_to='mail_app/messages/',
                               verbose_name='Изображение', **optional)
+    views_count = models.PositiveIntegerField(
+        verbose_name='Количество переходов', default=0)
 
     def __str__(self):
         return self.theme

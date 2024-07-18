@@ -28,12 +28,12 @@ class ClientAdmin(admin.ModelAdmin):
 class NewsletterAdmin(admin.ModelAdmin):
     list_display = ['pk', 'slug', 'title', 'message', 'first_sent_at',
                     'last_sent_at', 'status', 'periodicity', 'count_sent',
-                    'count_delivered', 'count_transition']
+                    'count_delivered']
     list_filter = ['status']
     search_fields = ['title']
     list_display_links = ['pk', 'slug', 'title', 'message', 'first_sent_at',
                           'last_sent_at', 'status', 'periodicity',
-                          'count_sent', 'count_delivered', 'count_transition']
+                          'count_sent', 'count_delivered']
     fields = ['slug', 'title', 'first_sent_at', 'last_sent_at', 'status',
               'periodicity', 'message']
     prepopulated_fields = {'slug': ('title',)}
@@ -41,8 +41,8 @@ class NewsletterAdmin(admin.ModelAdmin):
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'theme']
-    list_display_links = ['pk', 'theme']
+    list_display = ['pk', 'theme', 'views_count']
+    list_display_links = ['pk', 'theme', 'views_count']
     fields = ['theme', 'body', 'image', 'preview']
     readonly_fields = ['preview']
 

@@ -51,8 +51,10 @@
         <strong>{{ user.email }}</strong>
       </a>
       <ul class="dropdown-menu text-small shadow">
-        <li><a class="dropdown-item text-warning" href="{% url 'users:profile' %}">Редактировать</a></li>
-        <li><a class="dropdown-item text-danger" href="{% url 'users:logout' %}">Выйти</a></li>
+        <li><a class="dropdown-item text-warning"
+               href="{% url 'users:profile' %}">Редактировать</a></li>
+        <li><a class="dropdown-item text-danger"
+               href="{% url 'users:logout' %}">Выйти</a></li>
       </ul>
       {% else %}
       <a href="#"
@@ -65,9 +67,15 @@
       <ul class="dropdown-menu text-small shadow">
         <li><a class="dropdown-item text-warning"
                href="{% url 'users:login' %}">Войти</a></li>
-        <li><a class="dropdown-item text-info" href="{% url 'users:register' %}">Зарегистрироваться</a></li>
+        <li><a class="dropdown-item text-info"
+               href="{% url 'users:register' %}">Зарегистрироваться</a></li>
       </ul>
       {% endif %}
     </div>
+    <br>
+    {% if perms.mail_app.view_user %}
+      <a class="dropdown-item text-warning"
+         href="{% url 'users:users_list' %}">Список пользователей</a>
+    {% endif %}
 
 </div>

@@ -7,14 +7,13 @@ from mail_app.models import Client, Newsletter, Message, MailingAttempt
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
     list_display = ['pk', 'slug', 'email', 'name', 'surname', 'father_name',
-                    'status', 'created_at', 'newsletter', 'owner']
+                    'status', 'created_at', 'owner']
     list_filter = ['status', 'owner']
     search_fields = ['name', 'surname', 'father_name', 'email', 'owner']
     list_display_links = ['pk', 'slug', 'email', 'name', 'surname',
-                          'father_name', 'status', 'created_at', 'newsletter',
-                          'owner']
+                          'father_name', 'status', 'created_at', 'owner']
     fields = ['slug', 'photo', 'preview', 'email', 'name', 'surname',
-              'father_name', 'comment', 'status', 'newsletter']
+              'father_name', 'comment', 'status']
     readonly_fields = ['preview']
     prepopulated_fields = {'slug': ('email',)}
 
@@ -34,7 +33,7 @@ class NewsletterAdmin(admin.ModelAdmin):
                           'last_sent_at', 'status', 'periodicity',
                           'count_sent', 'count_delivered', 'owner']
     fields = ['slug', 'title', 'first_sent_at', 'last_sent_at', 'status',
-              'periodicity', 'message']
+              'periodicity', 'message', 'clients']
     prepopulated_fields = {'slug': ('title',)}
 
 

@@ -27,9 +27,6 @@ class Client(models.Model):
                                                                       'добавления')
     last_link_click = models.DateTimeField(
         verbose_name='Последний переход по ссылке', **optional)
-    newsletter = models.ForeignKey('Newsletter', on_delete=models.SET_NULL,
-                                   verbose_name='Рассылка',
-                                   related_name='client', **optional)
     owner = models.ForeignKey(User, blank=True, null=True,
                               verbose_name='Владелец',
                               on_delete=models.SET_NULL,
@@ -68,6 +65,9 @@ class Newsletter(models.Model):
                                      default=0)
     count_delivered = models.IntegerField(
         verbose_name='Количество доставленных', default=0)
+    clients = models.ManyToManyField('Client',
+                                     verbose_name='Клиенты',
+                                     related_name='newsletter')
     message = models.ForeignKey('Message', on_delete=models.SET_NULL,
                                 related_name='newsletter',
                                 verbose_name='Сообщение', **optional)

@@ -37,7 +37,7 @@ class NewsletterCreateView(LoginRequiredMixin, CreateView):
     """ Создает новую рассылку. """
     model = Newsletter
     fields = ['title', 'first_sent_at', 'last_sent_at', 'status',
-              'periodicity', 'message']
+              'periodicity', 'message', 'clients']
     success_url = reverse_lazy('mail_app:newsletter_list')
 
     def form_valid(self, form):
@@ -48,13 +48,41 @@ class NewsletterCreateView(LoginRequiredMixin, CreateView):
         new_newsletter.save()
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        client_list = []
+        new_client_list = []
+        clients = Client.objects.filter(owner=user)
+        for client in clients:
+            client_list.append(client)
+        for el in context['form'].fields['clients'].choices:
+            if el[0].instance in client_list:
+                new_client_list.append(el)
+        context['form'].fields['clients'].choices = new_client_list
+        return context
+
 
 class NewsletterUpdateView(LoginRequiredMixin, UpdateView):
     """ Редактирует рассылку. """
     model = Newsletter
     fields = ['title', 'first_sent_at', 'last_sent_at', 'status',
-              'periodicity', 'message']
+              'periodicity', 'message', 'clients']
     success_url = reverse_lazy('mail_app:newsletter_list')
+
+    def get_context_data(self, **kwargs):
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        client_list = []
+        new_client_list = []
+        clients = Client.objects.filter(owner=user)
+        for client in clients:
+            client_list.append(client)
+        for el in context['form'].fields['clients'].choices:
+            if el[0].instance in client_list:
+                new_client_list.append(el)
+        context['form'].fields['clients'].choices = new_client_list
+        return context
 
 
 class NewsletterDeleteView(LoginRequiredMixin, DeleteView):
@@ -150,7 +178,7 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
     """ Создает нового клиента. """
     model = Client
     fields = ['photo', 'email', 'name', 'surname', 'father_name', 'comment',
-              'status', 'newsletter']
+              'status']
     success_url = reverse_lazy('mail_app:clients_list')
 
     def form_valid(self, form):
@@ -166,7 +194,7 @@ class ClientUpdateView(LoginRequiredMixin, UpdateView):
     """ Редактирует клиента. """
     model = Client
     fields = ['photo', 'email', 'name', 'surname', 'father_name', 'comment',
-              'status', 'newsletter']
+              'status']
     success_url = reverse_lazy('mail_app:clients_list')
 
 

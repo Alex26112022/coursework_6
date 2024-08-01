@@ -17,10 +17,14 @@
     <tbody class="table-group-divider">
       <tr>
         <td>
+          {% if not user_.is_superuser %}
           {% if user_.is_active %}
           <a href="{% url 'users:user_block' user_.pk%}" class="btn btn-danger">Заблокировать</a>
           {% else %}
           <a href="{% url 'users:user_block' user_.pk%}" class="btn btn-success">Разблокировать</a>
+          {% endif %}
+          {% else %}
+          <h6 class="text-warning">Администратор</h6>
           {% endif %}
         </td>
         <td>

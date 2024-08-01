@@ -1,4 +1,5 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, \
+    PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, \
     DeleteView
@@ -7,13 +8,13 @@ from pytils.translit import slugify
 from mail_app.models import Message, Client, Newsletter, MailingAttempt
 
 
-class NewsletterListView(ListView):
+class NewsletterListView(LoginRequiredMixin, ListView):
     """ Выводит общую информацию о рассылках. """
     model = Newsletter
     paginate_by = 20
 
 
-class NewsletterDetailView(DetailView):
+class NewsletterDetailView(LoginRequiredMixin, DetailView):
     """ Выводит подробную информацию о рассылке. """
     model = Newsletter
 
@@ -56,7 +57,22 @@ class NewsletterDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('mail_app:newsletter_list')
 
 
-class MessageListView(ListView):
+class NewsletterOnOff(PermissionRequiredMixin, DetailView):
+    model = Newsletter
+    template_name = 'mail_app/newsletter_on_off.html'
+    permission_required = 'mail_app.off_newsletter'
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.status == 'Остановлена':
+            obj.status = 'Запущена'
+        else:
+            obj.status = 'Остановлена'
+        obj.save()
+        return obj
+
+
+class MessageListView(LoginRequiredMixin, ListView):
     """ Выводит общую информацию о сообщениях. """
     model = Message
     paginate_by = 6
@@ -101,13 +117,13 @@ class MessageDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('mail_app:messages_list')
 
 
-class ClientListView(ListView):
+class ClientListView(LoginRequiredMixin, ListView):
     """ Выводит общую информацию о клиентах. """
     model = Client
     paginate_by = 20
 
 
-class ClientDetailView(DetailView):
+class ClientDetailView(LoginRequiredMixin, DetailView):
     """ Выводит подробную информацию о клиенте. """
     model = Client
 

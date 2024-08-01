@@ -4,7 +4,9 @@
   <table class="table table-bordered border-primary border border-4 table-hover">
     <thead>
       <tr class="table-info">
+      {% if perms.mail_app.off_newsletter %}
       <th scope="col"></th>
+      {% endif %}
       <th scope="col">Название</th>
       <th scope="col">Сообщение</th>
       <th scope="col">Статус</th>
@@ -16,9 +18,19 @@
     {% for newsletter in object_list %}
     <tbody class="table-group-divider">
       <tr>
-        <th><button type="button"
-                    class="btn btn-outline-success">Кнопка</button></th>
-        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}" class="nav-link link-body-emphasis">{{ newsletter.title }}</a></td>
+        {% if perms.mail_app.off_newsletter %}
+        {% if newsletter.status == 'Остановлена' %}
+        <th><a type="button"
+               class="btn btn-outline-success"
+               href="{% url 'mail_app:newsletter_on_off' newsletter.slug %}">Запустить</a></th>
+        {% else %}
+        <th><a type="button"
+               class="btn btn-outline-danger"
+               href="{% url 'mail_app:newsletter_on_off' newsletter.slug %}">Остановить</a></th>
+        {% endif %}
+        {% endif %}
+        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}"
+               class="nav-link link-body-emphasis">{{ newsletter.title }}</a></td>
         <td>
           {% if newsletter.message %}
           <a href="{% url 'mail_app:message_detail' newsletter.message.pk %}">{{ newsletter.message }}</a>
@@ -26,10 +38,14 @@
           <p>-</p>
           {% endif %}
         </td>
-        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}" class="nav-link link-body-emphasis">{{ newsletter.status }}</a></td>
-        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}" class="nav-link link-body-emphasis">{{ newsletter.first_sent_at }}</a></td>
-        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}" class="nav-link link-body-emphasis">{{ newsletter.last_sent_at }}</a></td>
-        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}" class="nav-link link-body-emphasis">{{ newsletter.periodicity }}</a></td>
+        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}"
+               class="nav-link link-body-emphasis">{{ newsletter.status }}</a></td>
+        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}"
+               class="nav-link link-body-emphasis">{{ newsletter.first_sent_at }}</a></td>
+        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}"
+               class="nav-link link-body-emphasis">{{ newsletter.last_sent_at }}</a></td>
+        <td><a href="{% url 'mail_app:newsletter_detail' newsletter.slug %}"
+               class="nav-link link-body-emphasis">{{ newsletter.periodicity }}</a></td>
       </tr>
     </tbody>
     {% endfor %}

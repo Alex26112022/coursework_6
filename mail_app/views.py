@@ -13,6 +13,12 @@ class NewsletterListView(LoginRequiredMixin, ListView):
     model = Newsletter
     paginate_by = 20
 
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser or user.groups.filter(name='manager').exists():
+            return Newsletter.objects.all()
+        return Newsletter.objects.filter(owner=user)
+
 
 class NewsletterDetailView(LoginRequiredMixin, DetailView):
     """ Выводит подробную информацию о рассылке. """
@@ -64,7 +70,7 @@ class NewsletterOnOff(PermissionRequiredMixin, DetailView):
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
-        if obj.status == 'Остановлена':
+        if obj.status in ['Остановлена', 'Создана']:
             obj.status = 'Запущена'
         else:
             obj.status = 'Остановлена'
@@ -76,6 +82,12 @@ class MessageListView(LoginRequiredMixin, ListView):
     """ Выводит общую информацию о сообщениях. """
     model = Message
     paginate_by = 6
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser or user.groups.filter(name='manager').exists():
+            return Message.objects.all()
+        return Message.objects.filter(owner=user)
 
 
 class MessageDetailView(DetailView):
@@ -121,6 +133,12 @@ class ClientListView(LoginRequiredMixin, ListView):
     """ Выводит общую информацию о клиентах. """
     model = Client
     paginate_by = 20
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser or user.groups.filter(name='manager').exists():
+            return Client.objects.all()
+        return Client.objects.filter(owner=user)
 
 
 class ClientDetailView(LoginRequiredMixin, DetailView):

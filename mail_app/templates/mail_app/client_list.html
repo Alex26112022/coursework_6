@@ -28,6 +28,7 @@
   </table>
 </div>
 {% if user.is_authenticated %}
+{% if not perms.mail_app.off_newsletter or user.is_superuser %}
 <div class="col-12 m-3
    d-flex align-items-center justify-content-center">
   <a href="{% url 'mail_app:client_add' %}"
@@ -35,6 +36,7 @@
      role="button">Добавить клиента
   </a>
 </div>
+{% endif %}
 {% endif %}
 {% include 'mail_app/includes/inc_paginator.html' %}
 {% endblock %}

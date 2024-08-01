@@ -19,7 +19,7 @@
     <tbody class="table-group-divider">
       <tr>
         {% if perms.mail_app.off_newsletter %}
-        {% if newsletter.status == 'Остановлена' %}
+        {% if newsletter.status == 'Остановлена' or newsletter.status == 'Создана' %}
         <th><a type="button"
                class="btn btn-outline-success"
                href="{% url 'mail_app:newsletter_on_off' newsletter.slug %}">Запустить</a></th>
@@ -51,6 +51,7 @@
     {% endfor %}
 </table>
 {% if user.is_authenticated %}
+{% if not perms.mail_app.off_newsletter or user.is_superuser %}
 <div class="col-12 m-3
    d-flex align-items-center justify-content-center">
   <a href="{% url 'mail_app:newsletter_add' %}"
@@ -58,5 +59,6 @@
      role="button">Добавить рассылку
   </a>
 </div>
+{% endif %}
 {% endif %}
 {% endblock %}

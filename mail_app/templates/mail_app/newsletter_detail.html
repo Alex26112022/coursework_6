@@ -141,6 +141,7 @@
 
                 </div>
                 {% if user.is_authenticated %}
+                {% if not perms.mail_app.off_newsletter or user.is_superuser %}
                 <div class="card-footer">
                     <a href="{% url 'mail_app:newsletter_edit' newsletter.slug %}"
                            class="btn btn-lg btn-block btn-outline-warning m-2"
@@ -153,6 +154,7 @@
                           Удалить
                     </a>
                 </div>
+                {% endif %}
                 {% endif %}
             </div>
         </div>

@@ -7,15 +7,13 @@ from mail_app.models import Client, Newsletter, Message, MailingAttempt
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
     list_display = ['pk', 'slug', 'email', 'name', 'surname', 'father_name',
-                    'status', 'created_at', 'newsletter']
-    list_filter = ['status']
-    search_fields = ['name', 'surname', 'father_name', 'email']
+                    'status', 'created_at', 'owner']
+    list_filter = ['status', 'owner']
+    search_fields = ['name', 'surname', 'father_name', 'email', 'owner']
     list_display_links = ['pk', 'slug', 'email', 'name', 'surname',
-                          'father_name',
-                          'status', 'created_at', 'newsletter']
+                          'father_name', 'status', 'created_at', 'owner']
     fields = ['slug', 'photo', 'preview', 'email', 'name', 'surname',
-              'father_name',
-              'comment', 'status', 'newsletter']
+              'father_name', 'comment', 'status']
     readonly_fields = ['preview']
     prepopulated_fields = {'slug': ('email',)}
 
@@ -28,21 +26,21 @@ class ClientAdmin(admin.ModelAdmin):
 class NewsletterAdmin(admin.ModelAdmin):
     list_display = ['pk', 'slug', 'title', 'message', 'first_sent_at',
                     'last_sent_at', 'status', 'periodicity', 'count_sent',
-                    'count_delivered', 'count_transition']
-    list_filter = ['status']
-    search_fields = ['title']
+                    'count_delivered', 'owner']
+    list_filter = ['status', 'owner']
+    search_fields = ['title', 'owner']
     list_display_links = ['pk', 'slug', 'title', 'message', 'first_sent_at',
                           'last_sent_at', 'status', 'periodicity',
-                          'count_sent', 'count_delivered', 'count_transition']
+                          'count_sent', 'count_delivered', 'owner']
     fields = ['slug', 'title', 'first_sent_at', 'last_sent_at', 'status',
-              'periodicity', 'message']
+              'periodicity', 'message', 'clients']
     prepopulated_fields = {'slug': ('title',)}
 
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'theme']
-    list_display_links = ['pk', 'theme']
+    list_display = ['pk', 'theme', 'views_count', 'owner']
+    list_display_links = ['pk', 'theme', 'views_count', 'owner']
     fields = ['theme', 'body', 'image', 'preview']
     readonly_fields = ['preview']
 

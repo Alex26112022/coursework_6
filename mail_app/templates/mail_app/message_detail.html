@@ -19,6 +19,8 @@
                              style="max-height: 400px; min-height: 400px;">
                     {% endif %}
                     <br>
+                    {% if user.is_authenticated %}
+                    {% if not perms.mail_app.off_newsletter or user.is_superuser %}
                     <a href="{% url 'mail_app:message_edit' message.pk %}"
                        class="btn btn-lg btn-block btn-outline-warning"
                        role="button">
@@ -29,6 +31,8 @@
                        role="button">
                       Удалить
                     </a>
+                    {% endif %}
+                    {% endif %}
                 </div>
             </div>
         </div>

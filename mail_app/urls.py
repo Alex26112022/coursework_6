@@ -4,7 +4,7 @@ from mail_app.views import MessageListView, ClientListView, NewsletterListView, 
     MessageDetailView, MessageCreateView, MessageUpdateView, \
     MessageDeleteView, ClientDetailView, ClientCreateView, ClientUpdateView, \
     ClientDeleteView, NewsletterDetailView, NewsletterCreateView, \
-    NewsletterUpdateView, NewsletterDeleteView
+    NewsletterUpdateView, NewsletterDeleteView, NewsletterOnOff
 from .apps import MailAppConfig
 
 app_name = MailAppConfig.name
@@ -19,6 +19,8 @@ urlpatterns = [
          name='newsletter_edit'),
     path('newsletters/<slug:slug>/delete/', NewsletterDeleteView.as_view(),
          name='newsletter_delete'),
+    path('newsletters/on_off/<slug:slug>/', NewsletterOnOff.as_view(),
+         name='newsletter_on_off'),
     path('messages/', MessageListView.as_view(), name='messages_list'),
     path('messages/add/', MessageCreateView.as_view(), name='message_add'),
     path('messages/<int:pk>/', MessageDetailView.as_view(),

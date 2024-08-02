@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
+from users.models import User
+
 optional = {'blank': True, 'null': True}
 
 
@@ -25,9 +27,10 @@ class Client(models.Model):
                                                                       'добавления')
     last_link_click = models.DateTimeField(
         verbose_name='Последний переход по ссылке', **optional)
-    newsletter = models.ForeignKey('Newsletter', on_delete=models.SET_NULL,
-                                   verbose_name='Рассылка',
-                                   related_name='client', **optional)
+    owner = models.ForeignKey(User, blank=True, null=True,
+                              verbose_name='Владелец',
+                              on_delete=models.SET_NULL,
+                              related_name='client')
 
     def __str__(self):
         return f'{self.surname} {self.name} {self.father_name}'
@@ -62,11 +65,16 @@ class Newsletter(models.Model):
                                      default=0)
     count_delivered = models.IntegerField(
         verbose_name='Количество доставленных', default=0)
-    count_transition = models.IntegerField(verbose_name='Количество переходов',
-                                           default=0)
+    clients = models.ManyToManyField('Client',
+                                     verbose_name='Клиенты',
+                                     related_name='newsletter')
     message = models.ForeignKey('Message', on_delete=models.SET_NULL,
                                 related_name='newsletter',
                                 verbose_name='Сообщение', **optional)
+    owner = models.ForeignKey(User, blank=True, null=True,
+                              verbose_name='Владелец',
+                              on_delete=models.SET_NULL,
+                              related_name='newsletter')
 
     def __str__(self):
         return self.title
@@ -75,6 +83,11 @@ class Newsletter(models.Model):
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
         ordering = ['title']
+        permissions = [
+            ('view_user', 'Просматривать список пользователей сервиса'),
+            ('block_user', 'Блокировать пользователей сервиса'),
+            ('off_newsletter', 'Отключать рассылки')
+        ]
 
 
 class Message(models.Model):
@@ -83,6 +96,12 @@ class Message(models.Model):
     body = models.TextField(verbose_name='Текст сообщения', **optional)
     image = models.ImageField(upload_to='mail_app/messages/',
                               verbose_name='Изображение', **optional)
+    views_count = models.PositiveIntegerField(
+        verbose_name='Количество переходов', default=0)
+    owner = models.ForeignKey(User, blank=True, null=True,
+                              verbose_name='Владелец',
+                              on_delete=models.SET_NULL,
+                              related_name='message')
 
     def __str__(self):
         return self.theme

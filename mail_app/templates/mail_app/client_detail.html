@@ -57,7 +57,22 @@
                                   <tbody>
                                     <tr>
                                       <th class="text-lg-start">Рассылка</th>
-                                      <td style="word-break: break-all;">{{ client.newsletter }}</td>
+                                      <td style="word-break: break-all;">
+                                        <div class="btn-group">
+                                            {% if client.newsletter.all %}
+                                          <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Развернуть...
+                                          </button>
+                                          <ul class="dropdown-menu">
+                                            {% for newsletter in client.newsletter.all %}
+                                            <li><a class="dropdown-item" href="{% url 'mail_app:newsletter_detail' newsletter.slug %}">{{ newsletter | truncatechars:30 }}</a></li>
+                                            {% endfor %}
+                                            {% else %}
+                                            <p class="p-2" style="width: 200px; height: 20px;">Нет рассылок.</p>
+                                            {% endif %}
+                                          </ul>
+                                        </div>
+                                      </td>
                                     </tr>
                                     <tr>
                                       <th class="text-lg-start">Последний переход по ссылке</th>
@@ -81,7 +96,8 @@
 
 
                 </div>
-
+                {% if user.is_authenticated %}
+                {% if not perms.mail_app.off_newsletter or user.is_superuser %}
                 <div class="card-footer">
                     <a href="{% url 'mail_app:client_edit' client.slug %}"
                            class="btn btn-lg btn-block btn-outline-warning m-2"
@@ -94,7 +110,8 @@
                           Удалить
                     </a>
                 </div>
-
+                {% endif %}
+                {% endif %}
             </div>
         </div>
     </div>

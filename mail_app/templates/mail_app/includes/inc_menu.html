@@ -8,6 +8,11 @@
     </a>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
+      <li>
+        <a href="{% url 'blog:index' %}" class="nav-link link-body-emphasis" aria-current="page">
+          Главная страница
+        </a>
+      </li>
       <li class="nav-item">
         <a href="{% url 'mail_app:newsletter_list' %}"
            class="nav-link link-body-emphasis"
@@ -26,11 +31,6 @@
         <a href="{% url 'mail_app:messages_list' %}"
            class="nav-link link-body-emphasis" aria-current="page">
           Шаблоны сообщений
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link link-body-emphasis" aria-current="page">
-          Контакты
         </a>
       </li>
     </ul>

@@ -15,5 +15,8 @@ class BlogAdmin(admin.ModelAdmin):
     fields = ['title', 'content', 'image', 'preview']
 
     def preview(self, obj):
+        if obj.image:
+            return mark_safe(
+                f'<img src="{obj.image.url}" style="max-height: 150px;">')
         return mark_safe(
-            f'<img src="{obj.image.url}" style="max-height: 200px;">')
+            f'<img src="/media/not_image.png" style="max-height: 150px;">')

@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.decorators.cache import cache_page
 
 from blog.apps import BlogConfig
 from blog.views import index, BlogDetailView
@@ -6,6 +7,7 @@ from blog.views import index, BlogDetailView
 app_name = BlogConfig.name
 
 urlpatterns = [
-    path('', index, name='index'),
-    path('blog_detail/<int:pk>/', BlogDetailView.as_view(), name='blog_detail'),
+    path('', cache_page(60 * 5)(index), name='index'),
+    path('blog_detail/<int:pk>/', cache_page(60 * 5)(BlogDetailView.as_view()),
+         name='blog_detail'),
 ]

@@ -4,15 +4,16 @@ from django.shortcuts import render
 from django.views.generic import DetailView
 
 from blog.models import Blog
-from mail_app.models import Newsletter, Client
+from blog.services import get_from_cache
 
 
 def index(request):
     """ Главная страница сайта. """
-    newsletters = Newsletter.objects.all()
-    newsletters_active = Newsletter.objects.filter(status='Запущена')
-    clients = Client.objects.all()
-    blogs = Blog.objects.all()
+    content_cache = get_from_cache()
+    newsletters = content_cache[0]
+    newsletters_active = content_cache[1]
+    clients = content_cache[2]
+    blogs = content_cache[3]
     if blogs:
         blog_list = []
         while True:
@@ -38,6 +39,7 @@ class BlogDetailView(DetailView):
     model = Blog
 
     def get_object(self, queryset=None):
+        """ Добавляет информацию о просмотрах блога. """
         obj = super().get_object(queryset)
         obj.count_views += 1
         obj.save()

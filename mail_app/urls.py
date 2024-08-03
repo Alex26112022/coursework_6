@@ -10,7 +10,7 @@ from .apps import MailAppConfig
 app_name = MailAppConfig.name
 
 urlpatterns = [
-    path('', NewsletterListView.as_view(), name='newsletter_list'),
+    path('newsletter_list/', NewsletterListView.as_view(), name='newsletter_list'),
     path('newsletters/add/', NewsletterCreateView.as_view(),
          name='newsletter_add'),
     path('newsletters/<slug:slug>/', NewsletterDetailView.as_view(),

@@ -1,5 +1,7 @@
 {% extends 'mail_app/base.html' %}
 
+{% block title %}Список клиентов{% endblock %}
+
 {% block content %}
 <div class="table-responsive-xxl">
   <table class="table table-bordered border-primary border border-4 table-hover">
@@ -14,7 +16,17 @@
     </tr>
     </thead>
     {% for client in object_list %}
+    {% if client.status == 'Заблокированный' %}
     <tbody class="table-group-divider">
+      <tr>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis text-danger">{{ client.email }}</a></td>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis text-danger">{{ client.name }}</a></td>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis text-danger">{{ client.surname }}</a></td>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis text-danger">{{ client.father_name }}</a></td>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis text-danger">{{ client.status }}</a></td>
+        <td>
+    {% else %}
+      <tbody class="table-group-divider">
       <tr>
         <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis">{{ client.email }}</a></td>
         <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis">{{ client.name }}</a></td>
@@ -22,6 +34,7 @@
         <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis">{{ client.father_name }}</a></td>
         <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis">{{ client.status }}</a></td>
         <td>
+    {% endif %}
           <div class="btn-group">
             {% if client.newsletter.all %}
           <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

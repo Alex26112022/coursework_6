@@ -1,0 +1,30 @@
+{% extends 'mail_app/base.html' %}
+
+{% block title %}Подробно о сообщении{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+        <div class="col-12">
+            <div class="card mb-4 box-shadow p-2" style="min-height: 90%; width: 90%;">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">
+                        {{ blog.title }}</h4>
+                </div>
+                <div class="card-body">
+                    <p>{{ blog.content }}</p>
+                    {% if blog.image %}
+                        <a href="{{ blog.image.url }}">
+                            <img src="{{ blog.image.url }}" class="m-4"
+                             style="max-height: 400px; min-height: 400px;">
+                        </a>
+                    {% else %}
+                        <img src="/media/not_image.png" class="m-4"
+                             style="max-height: 400px; min-height: 400px;">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

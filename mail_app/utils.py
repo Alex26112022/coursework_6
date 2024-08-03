@@ -46,7 +46,7 @@ def my_send_mail():
 
     for newsletter in newsletters:
         clients_list = []
-        for el in newsletter.client.all():
+        for el in newsletter.clients.all():
             if el.status != 'Заблокированный':
                 clients_list.append(el.email)
 
@@ -97,7 +97,7 @@ def my_period_mail():
                 now - newsletter.first_sent_at).days % 365 == 0:
 
             clients_list = []
-            for el in newsletter.client.all():
+            for el in newsletter.clients.all():
                 if el.status != 'Заблокированный':
                     clients_list.append(el.email)
 

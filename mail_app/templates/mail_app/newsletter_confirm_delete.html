@@ -1,0 +1,31 @@
+{% extends 'mail_app/base.html' %}
+
+{% block title %}Подтверждение удаления рассылки{% endblock %}
+
+{% block content %}
+<div class="col-12 h-100 mb-4
+   d-flex align-items-center justify-content-center">
+  <div class="card mb-4 box-shadow" style="top: -30%;">
+    <div class="card-header">
+      <h4 class="my-4 font-weight-normal text-center">Вы действительно хотите
+        удалить рассылку<br>"{{ object.title }}"?</h4>
+    </div>
+  <div class="card-body">
+     <form action="" method="post" class="form-floating">
+      {% csrf_token %}
+       <div class="col-12 h-100 mb-2
+            d-flex align-items-center justify-content-center">
+         <button type="submit"
+                 class="btn btn-lg btn-block btn-outline-danger m-2">Удалить
+         </button>
+         <a href="{% url 'mail_app:newsletter_detail' object.slug %}"
+            class="btn btn-lg btn-block btn-outline-info m-2"
+            role="button">Отмена
+         </a>
+       </div>
+
+     </form>
+  </div>
+  </div>
+</div>
+{% endblock %}

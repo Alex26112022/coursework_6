@@ -1,0 +1,70 @@
+{% extends 'mail_app/base.html' %}
+
+{% block title %}Список клиентов{% endblock %}
+
+{% block content %}
+<div class="table-responsive-xxl">
+  <table class="table table-bordered border-primary border border-4 table-hover">
+    <thead>
+      <tr class="table-info">
+      <th scope="col">Email</th>
+      <th scope="col">Имя</th>
+      <th scope="col">Фамилия</th>
+      <th scope="col">Отчество</th>
+      <th scope="col">Статус</th>
+      <th scope="col">Рассылка</th>
+    </tr>
+    </thead>
+    {% for client in object_list %}
+    {% if client.status == 'Заблокированный' %}
+    <tbody class="table-group-divider">
+      <tr>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis text-danger">{{ client.email }}</a></td>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis text-danger">{{ client.name }}</a></td>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis text-danger">{{ client.surname }}</a></td>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis text-danger">{{ client.father_name }}</a></td>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis text-danger">{{ client.status }}</a></td>
+        <td>
+    {% else %}
+      <tbody class="table-group-divider">
+      <tr>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis">{{ client.email }}</a></td>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis">{{ client.name }}</a></td>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis">{{ client.surname }}</a></td>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis">{{ client.father_name }}</a></td>
+        <td><a href="{% url 'mail_app:client_detail' client.slug %}" class="nav-link link-body-emphasis">{{ client.status }}</a></td>
+        <td>
+    {% endif %}
+          <div class="btn-group">
+            {% if client.newsletter.all %}
+          <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            Развернуть...
+          </button>
+          <ul class="dropdown-menu">
+            {% for newsletter in client.newsletter.all %}
+            <li><a class="dropdown-item" href="{% url 'mail_app:newsletter_detail' newsletter.slug %}">{{ newsletter | truncatechars:30 }}</a></li>
+            {% endfor %}
+            {% else %}
+            <p class="p-2" style="width: 200px; height: 20px;">Нет рассылок.</p>
+            {% endif %}
+          </ul>
+        </div>
+        </td>
+      </tr>
+    </tbody>
+    {% endfor %}
+  </table>
+</div>
+{% if user.is_authenticated %}
+{% if not perms.mail_app.off_newsletter or user.is_superuser %}
+<div class="col-12 m-3
+   d-flex align-items-center justify-content-center">
+  <a href="{% url 'mail_app:client_add' %}"
+     class="btn btn-block btn-outline-success btn-lg"
+     role="button">Добавить клиента
+  </a>
+</div>
+{% endif %}
+{% endif %}
+{% include 'mail_app/includes/inc_paginator.html' %}
+{% endblock %}

@@ -1,0 +1,165 @@
+{% extends 'mail_app/base.html' %}
+
+{% block title %}Подробно о рассылке{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+        <div class="col-12">
+            <div class="card mb-4 box-shadow p-2" style="min-height: 90%; width: 90%;">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">
+                        Параметры рассылки</h4>
+                </div>
+                <div class="card-body">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-12">
+
+                                <table class="table">
+                                  <thead>
+                                    <tr>
+                                      <th class="text-lg">Основная информация</th>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Название рассылки</th>
+                                      <td style="word-break: break-all;">{{ newsletter.title }}</td>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <th class="text-lg-start">Сообщение</th>
+                                      <td style="word-break: break-all;">
+                                        {% if newsletter.message %}
+                                        <ins>
+                                          <a href="{% url 'mail_app:message_detail' newsletter.message.pk %}" class="nav-link link-body-emphasis">
+                                          {{ newsletter.message }}</a>
+                                        </ins>
+                                        {% else %}
+                                        <p>-</p>
+                                        {% endif %}
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Статус</th>
+                                      <td style="word-break: break-all;">{{ newsletter.status }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Дата первого отправления</th>
+                                      <td style="word-break: break-all;">{{ newsletter.first_sent_at }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Дата крайнего отправления</th>
+                                      <td style="word-break: break-all;">{{ newsletter.last_sent_at }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Периодичность</th>
+                                      <td style="word-break: break-all;">{{ newsletter.periodicity }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Количество отправленных</th>
+                                      <td style="word-break: break-all;">{{ newsletter.count_sent }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Количество доставленных</th>
+                                      <td style="word-break: break-all;">{{ newsletter.count_delivered }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Количество переходов</th>
+                                      <td style="word-break: break-all;">{{ newsletter.message.views_count }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg">Статистика попыток</th>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Последняя попытка отправки</th>
+                                      <td style="word-break: break-all;">{{ attempts.0.last_attempt_at }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Успешность отправки</th>
+                                      <td style="word-break: break-all;">{{ attempts.0.successfully }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Ответ сервера</th>
+                                      <td style="word-break: break-all;">{{ attempts.0.mail_response }}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">
+                                        <ins>
+
+                                          <div class="btn-group">
+                                          <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Подробнее...
+                                          </button>
+                                          <ul class="dropdown-menu">
+                                            {% if attempts %}
+                                            <p class="p-2">Последняя попытка отправки | Успешность отправки | Ответ сервера</p>
+                                            {% for attempt in attempts %}
+                                            <li style="width: 580px;" class="p-2">
+                                              <p>
+                                                {{ attempt.last_attempt_at }}.................................{{ attempt.successfully }}...............................{{ attempt.mail_response }}
+                                              </p>
+                                            </li>
+                                            {% endfor %}
+                                            {% else %}
+                                            <p class="p-2" style="width: 200px; height: 20px;">Нет попыток отправки.</p>
+                                            {% endif %}
+                                          </ul>
+                                        </div>
+
+                                        </ins>
+                                      </th>
+                                      <td style="word-break: break-all;"></td>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg">Доп. информация</th>
+                                    </tr>
+                                    <tr>
+                                      <th class="text-lg-start">Закрепленные клиенты</th>
+                                      <td style="word-break: break-all;">
+
+                                        <div class="btn-group">
+                                          <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Список
+                                          </button>
+                                          <ul class="dropdown-menu">
+                                            {% if clients %}
+                                            {% for client in clients %}
+                                            <li><a class="dropdown-item" href="{% url 'mail_app:client_detail' client.slug %}">{{ client | truncatechars:30 }}</a></li>
+                                            {% endfor %}
+                                            {% else %}
+                                            <p class="p-2" style="width: 200px; height: 20px;">Нет клиентов.</p>
+                                            {% endif %}
+                                          </ul>
+                                        </div>
+
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+
+                        </div>
+                    </div>
+
+                </div>
+                {% if user.is_authenticated %}
+                {% if not perms.mail_app.off_newsletter or user.is_superuser %}
+                <div class="card-footer">
+                    <a href="{% url 'mail_app:newsletter_edit' newsletter.slug %}"
+                           class="btn btn-lg btn-block btn-outline-warning m-2"
+                           role="button">
+                          Редактировать
+                    </a>
+                    <a href="{% url 'mail_app:newsletter_delete' newsletter.slug %}"
+                           class="btn btn-lg btn-block btn-outline-danger"
+                           role="button">
+                          Удалить
+                    </a>
+                </div>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

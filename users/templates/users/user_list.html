@@ -1,0 +1,59 @@
+{% extends 'mail_app/base.html' %}
+
+{% block title %}Список пользователей{% endblock %}
+
+{% block content %}
+<div class="table-responsive-xxl">
+  <table class="table table-bordered border-primary border border-4 table-hover">
+    <thead>
+      <tr class="table-info">
+      <th></th>
+      <th scope="col">Статус</th>
+      <th scope="col">Фото</th>
+      <th scope="col">E-mail</th>
+      <th scope="col">Телефон</th>
+      <th scope="col">Последний вход</th>
+    </tr>
+    </thead>
+    {% for user_ in object_list %}
+    <tbody class="table-group-divider">
+      <tr>
+        <td>
+          {% if not user_.is_superuser %}
+          {% if user_.is_active %}
+          <a href="{% url 'users:user_block' user_.pk%}" class="btn btn-danger">Заблокировать</a>
+          {% else %}
+          <a href="{% url 'users:user_block' user_.pk%}" class="btn btn-success">Разблокировать</a>
+          {% endif %}
+          {% else %}
+          <h6 class="text-warning">Администратор</h6>
+          {% endif %}
+        </td>
+        <td>
+          <p>
+          {% if user_.is_active %}
+          Активный
+          {% else %}
+          Заблокирован
+          {% endif %}
+          </p>
+        </td>
+        <td>
+          {% if user_.photo %}
+          <a href="{{ user_.photo.url }}">
+            <img src="{{ user_.photo.url }}" alt="" width="60" height="60">
+          </a>
+        {% else %}
+        <img src="/media/ava.jpeg" alt="" width="60" height="60">
+        {% endif %}
+        </td>
+        <td><p>{{ user_.email }}</p></td>
+        <td><p>{{ user_.phone }}</p></td>
+        <td><p>{{ user_.date_joined }}</p></td>
+      </tr>
+    </tbody>
+    {% endfor %}
+  </table>
+</div>
+{% include 'mail_app/includes/inc_paginator.html' %}
+{% endblock %}

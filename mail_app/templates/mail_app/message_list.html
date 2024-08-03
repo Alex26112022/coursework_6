@@ -1,0 +1,54 @@
+{% extends 'mail_app/base.html' %}
+
+{% block title %}Список сообщений{% endblock %}
+
+{% block content %}
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+        {% for message in object_list %}
+        <div class="col">
+          <div class="card shadow-sm" style="min-height: 400px; max-height:
+          400px;">
+            {% if message.image %}
+            <img src="{{ message.image.url }}" alt="" style="max-height:
+            250px; min-height: 250px;">
+            {% else %}
+            <img src="/media/ava.jpeg" alt="" style="max-height: 250px;
+            min-height: 250px;">
+            {% endif %}
+            <div class="card-body">
+              <p class="card-text m-4">{{ message.theme | truncatechars:20 }}</p>
+              <div class="d-flex justify-content-between align-items-center row text-center">
+                <div class="btn-group">
+                  <a type="button" href="{% url 'mail_app:message_detail' message.pk %}"
+                          class="btn btn-outline-success btn-sm">Подробнее</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
+  {% if user.is_authenticated %}
+  {% if not perms.mail_app.off_newsletter or user.is_superuser %}
+  <div class="col-12 h-100 m-3
+     d-flex align-items-center justify-content-center">
+    <a href="{% url 'mail_app:message_add' %}"
+       class="btn btn-block btn-outline-success btn-lg"
+       role="button">Добавить
+      шаблон
+    </a>
+  </div>
+  {% endif %}
+  {% endif %}
+  {% include 'mail_app/includes/inc_paginator.html' %}
+
+</div>
+
+
+
+{% endblock %}

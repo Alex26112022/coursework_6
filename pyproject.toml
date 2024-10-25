@@ -6,10 +6,10 @@ authors = ["Your Name <you@example.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.13"
 flake8 = "^7.1.0"
 pillow = "^10.3.0"
-psycopg2 = "^2.9.9"
+psycopg = {extras = ["binary", "pool"], version = "^3.2.3"}
 python-dotenv = "^1.0.1"
 pytils = "^0.4.1"
 ipython = "^8.25.0"
